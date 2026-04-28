@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #0f1820;
+    --bg-secondary: #1a2530;
+    --bg-card: #1e2e3e;
+    --bg-elevated: #243444;
+    --border: #2c3e4e;
+    --border-light: #334a5c;
+    --text-primary: #e8eef4;
+    --text-secondary: #8fa8bc;
+    --text-muted: #5a7a90;
+    --accent: #fbbf24;
+    --accent-dim: rgba(251, 191, 36, 0.12);
+    --rust: #e05c2a;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: "DM Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-light);
+    border-radius: 3px;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-amber-400 text-steel-950 font-display font-bold text-sm uppercase tracking-widest px-6 py-2.5 rounded transition-all duration-200 hover:bg-amber-500 hover:shadow-glow active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-outline {
+    @apply border border-steel-600 text-steel-200 font-display font-semibold text-sm uppercase tracking-wider px-6 py-2.5 rounded transition-all duration-200 hover:border-amber-400 hover:text-amber-400 active:scale-95;
+  }
+
+  .btn-ghost {
+    @apply text-steel-300 font-body text-sm px-4 py-2 rounded transition-colors hover:bg-steel-800 hover:text-steel-100;
+  }
+
+  .card {
+    @apply bg-[var(--bg-card)] border border-[var(--border)] rounded-lg overflow-hidden transition-all duration-300 hover:border-steel-500 hover:shadow-card-hover;
+  }
+
+  .input {
+    @apply w-full bg-steel-900 border border-steel-700 text-steel-100 placeholder-steel-500 rounded px-4 py-2.5 text-sm font-body focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/30 transition-colors;
+  }
+
+  .label {
+    @apply block text-xs font-display font-semibold uppercase tracking-widest text-steel-400 mb-1.5;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-mono font-medium uppercase tracking-wider;
+  }
+
+  .badge-amber {
+    @apply badge bg-amber-400/15 text-amber-400 border border-amber-400/20;
+  }
+  .badge-green {
+    @apply badge bg-emerald-400/15 text-emerald-400 border border-emerald-400/20;
+  }
+  .badge-red {
+    @apply badge bg-red-400/15 text-red-400 border border-red-400/20;
+  }
+  .badge-blue {
+    @apply badge bg-blue-400/15 text-blue-400 border border-blue-400/20;
+  }
+  .badge-gray {
+    @apply badge bg-steel-700 text-steel-300;
+  }
+
+  .section-title {
+    @apply font-display text-3xl font-black uppercase tracking-wide text-steel-50;
+  }
+
+  .page-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
+  }
+
+  .divider {
+    @apply border-t border-steel-800 my-6;
+  }
+
+  /* Skeleton loader */
+  .skeleton {
+    @apply bg-steel-800 rounded animate-pulse;
+  }
+
+  /* Fade-in animation */
+  .fade-in {
+    animation: fadeIn 0.4s ease forwards;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Staggered children */
+  .stagger > * {
+    animation: fadeIn 0.4s ease forwards;
+    opacity: 0;
+  }
+  .stagger > *:nth-child(1) {
+    animation-delay: 0.05s;
+  }
+  .stagger > *:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  .stagger > *:nth-child(3) {
+    animation-delay: 0.15s;
+  }
+  .stagger > *:nth-child(4) {
+    animation-delay: 0.2s;
+  }
+  .stagger > *:nth-child(5) {
+    animation-delay: 0.25s;
+  }
+  .stagger > *:nth-child(6) {
+    animation-delay: 0.3s;
+  }
+  .stagger > *:nth-child(7) {
+    animation-delay: 0.35s;
+  }
+  .stagger > *:nth-child(8) {
+    animation-delay: 0.4s;
+  }
+}

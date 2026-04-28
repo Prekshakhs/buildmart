@@ -1,0 +1,45 @@
+{
+  "folders": [
+    {
+      "name": "BuildMart (Root)",
+      "path": "."
+    },
+    {
+      "name": "Backend",
+      "path": "backend"
+    },
+    {
+      "name": "Frontend",
+      "path": "frontend"
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2,
+    "files.eol": "\n",
+    "emmet.includeLanguages": {
+      "javascript": "javascriptreact"
+    },
+    "javascript.preferences.importModuleSpecifier": "relative",
+    "eslint.workingDirectories": ["backend", "frontend"],
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/.git": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "bradlc.vscode-tailwindcss",
+      "christian-kohler.path-intellisense",
+      "formulahendry.auto-rename-tag",
+      "PKief.material-icon-theme",
+      "mongodb.mongodb-vscode",
+      "humao.rest-client",
+      "eamodio.gitlens"
+    ]
+  }
+}
