@@ -7,11 +7,17 @@ const { calculatePrice } = require("../utils/pricingCalculator");
 // ─── @POST /api/orders ────────────────────────────────────────────────────────
 // Buyer: Place a new order
 const placeOrder = asyncHandler(async (req, res) => {
-  const { shippingAddress, paymentMethod = "cod" } = req.body;
+  const { shippingAddress, paymentMethod = "cod", razorpay_payment_id } = req.body;
 
   if (!shippingAddress) {
     res.status(400);
     throw new Error("Shipping address is required");
+  }
+
+  // Validate payment method
+  if (paymentMethod === "razorpay" && !razorpay_payment_id) {
+    res.status(400);
+    throw new Error("Razorpay payment ID is required for razorpay payment method");
   }
 
   // Load cart
@@ -62,16 +68,39 @@ const placeOrder = asyncHandler(async (req, res) => {
   const shippingCharges = itemsTotal >= 5000 ? 0 : 99; // Free shipping above ₹5000
   const grandTotal = parseFloat((itemsTotal + shippingCharges).toFixed(2));
 
+  // Build payment info
+  const paymentInfo =
+    paymentMethod === "razorpay"
+      ? {
+          id: razorpay_payment_id,
+          status: "paid",
+          paidAt: new Date(),
+        }
+      : {
+          id: null,
+          status: "pending",
+        };
+
   // Create order
   const order = await Order.create({
     buyer: req.user._id,
     items: orderItems,
     shippingAddress,
     paymentMethod,
+    paymentInfo,
     itemsTotal: parseFloat(itemsTotal.toFixed(2)),
     shippingCharges,
     grandTotal,
-    statusHistory: [{ status: "pending", note: "Order placed" }],
+    status: paymentMethod === "razorpay" ? "confirmed" : "pending",
+    statusHistory: [
+      {
+        status: paymentMethod === "razorpay" ? "confirmed" : "pending",
+        note:
+          paymentMethod === "razorpay"
+            ? "Payment received, order confirmed"
+            : "Order placed",
+      },
+    ],
   });
 
   // Decrement stock

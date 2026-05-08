@@ -14,6 +14,8 @@ const { errorHandler, notFound } = require("./middleware/errorMiddleware");
 const authRoutes = require("./routes/auth.routes");
 const productRoutes = require("./routes/product.routes");
 const cartRoutes = require("./routes/cart.routes");
+const wishlistRoutes = require("./routes/wishlist.routes");
+const paymentRoutes = require("./routes/payment.routes");
 const orderRoutes = require("./routes/order.routes");
 const sellerRoutes = require("./routes/seller.routes");
 const adminRoutes = require("./routes/admin.routes");
@@ -83,6 +85,8 @@ app.get("/api/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/payments", paymentRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/returns", returnRoutes);
 app.use("/api/seller", sellerRoutes);

@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Users, ShoppingBag } from "lucide-react";
+import { LayoutDashboard, Users, ShoppingBag, Package } from "lucide-react";
 
 export default function AdminLayout({ children }) {
   const navItems = [
@@ -9,6 +9,7 @@ export default function AdminLayout({ children }) {
       icon: <LayoutDashboard size={16} />,
     },
     { to: "/admin/users", label: "Manage Users", icon: <Users size={16} /> },
+    { to: "/admin/products", label: "Products", icon: <Package size={16} /> },
     { to: "/admin/orders", label: "Orders", icon: <ShoppingBag size={16} /> },
   ];
 

@@ -1,14 +1,18 @@
 import { Link } from "react-router-dom";
 import { ShoppingCart, Star, Package } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
 import { useAuth } from "../context/AuthContext";
 import { formatCurrency, truncate } from "../utils/helpers";
+import WishlistButton from "./WishlistButton";
 
 export default function ProductCard({ product }) {
   const { addToCart, cartLoading } = useCart();
+  const { checkIsWishlisted, wishlistLoading } = useWishlist();
   const { user } = useAuth();
 
   const isBuyer = !user || user.role === "buyer";
+  const isWishlisted = isBuyer && checkIsWishlisted(product._id);
   const img = product.images?.[0]?.url;
   const discount =
     product.wholesaleTiers?.length > 0
@@ -111,14 +115,23 @@ export default function ProductCard({ product }) {
 
         {/* Add to cart */}
         {isBuyer && (
-          <button
-            onClick={() => addToCart(product._id, 1)}
-            disabled={cartLoading || product.stock === 0}
-            className="btn-primary w-full flex items-center justify-center gap-2 mt-2 text-xs py-2"
-          >
-            <ShoppingCart size={14} />
-            {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
-          </button>
+          <div className="flex gap-2 mt-2">
+            <button
+              onClick={() => addToCart(product._id, 1)}
+              disabled={cartLoading || product.stock === 0}
+              className="btn-primary flex-1 flex items-center justify-center gap-2 text-xs py-2"
+            >
+              <ShoppingCart size={14} />
+              {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
+            </button>
+            <div className="btn-secondary px-3 py-2 hover:bg-amber-400/10 transition flex items-center justify-center">
+              <WishlistButton
+                productId={product._id}
+                isWishlisted={isWishlisted}
+                loading={wishlistLoading}
+              />
+            </div>
+          </div>
         )}
       </div>
     </div>

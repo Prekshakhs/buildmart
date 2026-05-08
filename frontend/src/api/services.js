@@ -67,6 +67,29 @@ export const cartService = {
   clear: () => API.delete("/cart/clear"),
 };
 
+// ─── Wishlist ──────────────────────────────────────────────────────────────────
+export const wishlistService = {
+  get: () => API.get("/wishlist"),
+  add: (productId) => API.post("/wishlist/add", { productId }),
+  remove: (productId) => API.delete(`/wishlist/remove/${productId}`),
+  checkStatus: (productId) => API.get(`/wishlist/status/${productId}`),
+  clear: () => API.delete("/wishlist/clear"),
+};
+
+// ─── Payments ──────────────────────────────────────────────────────────────────
+export const paymentService = {
+  createRazorpayOrder: (amount, currency = "INR") =>
+    API.post("/payments/create-order", { amount, currency }),
+  verifyPayment: (razorpay_order_id, razorpay_payment_id, razorpay_signature) =>
+    API.post("/payments/verify", {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+    }),
+  refundPayment: (orderId, reason) =>
+    API.post(`/payments/refund/${orderId}`, { reason }),
+};
+
 // ─── Orders ───────────────────────────────────────────────────────────────────
 export const orderService = {
   place: (data) => API.post("/orders", data),
@@ -110,5 +133,6 @@ export const adminService = {
   toggleUser: (id) => API.put(`/admin/users/${id}/toggle`),
   approveSeller: (id) => API.put(`/admin/sellers/${id}/approve`),
   getOrders: (params) => API.get("/admin/orders", { params }),
+  getProducts: (params) => API.get("/admin/products", { params }),
   removeProduct: (id) => API.delete(`/admin/products/${id}`),
 };

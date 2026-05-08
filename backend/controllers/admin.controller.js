@@ -102,4 +102,52 @@ const removeProduct = asyncHandler(async (req, res) => {
   res.json({ success: true, message: "Product removed from marketplace" });
 });
 
-module.exports = { getDashboard, getUsers, toggleUserStatus, approveSeller, getAllOrders, removeProduct };
+// ─── @GET /api/admin/products ────────────────────────────────────────────────
+const getProducts = asyncHandler(async (req, res) => {
+  const { page = 1, limit = 20, search, category, seller, stockStatus, isActive } = req.query;
+  const query = {};
+
+  // Search by product name or SKU
+  if (search) {
+    query.$or = [
+      { name: { $regex: search, $options: "i" } },
+      { sku: { $regex: search, $options: "i" } },
+    ];
+  }
+
+  // Filter by category
+  if (category) query.category = category;
+
+  // Filter by seller
+  if (seller) query.seller = seller;
+
+  // Filter by stock status
+  if (stockStatus === "in-stock") query.stock = { $gt: 0 };
+  else if (stockStatus === "low-stock") query.stock = { $gt: 0, $lte: 5 };
+  else if (stockStatus === "out-of-stock") query.stock = 0;
+
+  // Filter by active status (default: show all)
+  if (isActive === "active") query.isActive = true;
+  else if (isActive === "inactive") query.isActive = false;
+
+  const pageNum = parseInt(page);
+  const limitNum = parseInt(limit);
+
+  const [products, total] = await Promise.all([
+    Product.find(query)
+      .populate("seller", "name sellerInfo")
+      .populate("category", "name icon")
+      .sort({ createdAt: -1 })
+      .skip((pageNum - 1) * limitNum)
+      .limit(limitNum),
+    Product.countDocuments(query),
+  ]);
+
+  res.json({
+    success: true,
+    data: products,
+    pagination: { total, page: pageNum, pages: Math.ceil(total / limitNum) },
+  });
+});
+
+module.exports = { getDashboard, getUsers, toggleUserStatus, approveSeller, getAllOrders, removeProduct, getProducts };

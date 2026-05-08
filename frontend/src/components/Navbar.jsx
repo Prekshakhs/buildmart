@@ -9,13 +9,16 @@ import {
   LayoutDashboard,
   LogOut,
   ChevronDown,
+  Heart,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
 
 export default function Navbar() {
   const { user, logout, isAuthenticated } = useAuth();
   const { cart } = useCart();
+  const { wishlist } = useWishlist();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
@@ -73,19 +76,35 @@ export default function Navbar() {
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
-            {/* Cart (buyers only) */}
+            {/* Cart & Wishlist (buyers only) */}
             {(!user || user.role === "buyer") && (
-              <Link
-                to={isAuthenticated ? "/cart" : "/login"}
-                className="relative p-2 text-steel-300 hover:text-amber-400 transition-colors"
-              >
-                <ShoppingCart size={20} />
-                {cart.totalItems > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-amber-400 text-steel-950 text-[10px] font-mono font-700 rounded-full flex items-center justify-center">
-                    {cart.totalItems > 9 ? "9+" : cart.totalItems}
-                  </span>
-                )}
-              </Link>
+              <>
+                {/* Cart */}
+                <Link
+                  to={isAuthenticated ? "/cart" : "/login"}
+                  className="relative p-2 text-steel-300 hover:text-amber-400 transition-colors"
+                >
+                  <ShoppingCart size={20} />
+                  {cart.totalItems > 0 && (
+                    <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-amber-400 text-steel-950 text-[10px] font-mono font-700 rounded-full flex items-center justify-center">
+                      {cart.totalItems > 9 ? "9+" : cart.totalItems}
+                    </span>
+                  )}
+                </Link>
+
+                {/* Wishlist */}
+                <Link
+                  to={isAuthenticated ? "/wishlist" : "/login"}
+                  className="relative p-2 text-steel-300 hover:text-rose-400 transition-colors"
+                >
+                  <Heart size={20} />
+                  {wishlist.items && wishlist.items.length > 0 && (
+                    <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-rose-500 text-white text-[10px] font-mono font-700 rounded-full flex items-center justify-center">
+                      {wishlist.items.length > 9 ? "9+" : wishlist.items.length}
+                    </span>
+                  )}
+                </Link>
+              </>
             )}
 
             {/* Auth */}
@@ -133,13 +152,22 @@ export default function Navbar() {
                       <User size={14} /> My Profile
                     </Link>
                     {user.role === "buyer" && (
-                      <Link
-                        to="/orders"
-                        onClick={() => setUserOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-steel-300 hover:text-steel-50 hover:bg-steel-800 transition-colors"
-                      >
-                        <Package size={14} /> My Orders
-                      </Link>
+                      <>
+                        <Link
+                          to="/wishlist"
+                          onClick={() => setUserOpen(false)}
+                          className="flex items-center gap-2 px-4 py-2 text-sm text-steel-300 hover:text-steel-50 hover:bg-steel-800 transition-colors"
+                        >
+                          <Heart size={14} /> My Wishlist
+                        </Link>
+                        <Link
+                          to="/orders"
+                          onClick={() => setUserOpen(false)}
+                          className="flex items-center gap-2 px-4 py-2 text-sm text-steel-300 hover:text-steel-50 hover:bg-steel-800 transition-colors"
+                        >
+                          <Package size={14} /> My Orders
+                        </Link>
+                      </>
                     )}
                     <button
                       onClick={handleLogout}

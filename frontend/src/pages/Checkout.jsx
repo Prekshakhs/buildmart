@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MapPin, CreditCard, Truck } from "lucide-react";
-import { orderService } from "../api/services";
+import { orderService, paymentService } from "../api/services";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { formatCurrency, getErrMsg } from "../utils/helpers";
@@ -24,14 +24,111 @@ export default function Checkout() {
   const shippingCharge = cart.grandTotal >= 5000 ? 0 : 99;
   const grandTotal = cart.grandTotal + shippingCharge;
 
+  const initializeRazorpayPayment = async () => {
+    try {
+      setLoading(true);
+
+      // Validate form first
+      const required = ["fullName", "phone", "street", "city", "state", "pincode"];
+      for (const k of required) {
+        if (!form[k]) {
+          toast.error(`Please fill in ${k}`);
+          setLoading(false);
+          return;
+        }
+      }
+
+      // Step 1: Create Razorpay order
+      const { data: orderResponse } = await paymentService.createRazorpayOrder(
+        grandTotal,
+        "INR"
+      );
+      const razorpayOrderId = orderResponse.data.orderId;
+
+      // Step 2: Open Razorpay checkout modal
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY || "YOUR_RAZORPAY_KEY_ID",
+        amount: Math.round(grandTotal * 100), // in paise
+        currency: "INR",
+        name: "BuildMart",
+        description: "Order Payment",
+        order_id: razorpayOrderId,
+        prefill: {
+          name: form.fullName,
+          email: user?.email || "",
+          contact: form.phone,
+        },
+        theme: {
+          color: "#9945FF",
+        },
+        handler: async (response) => {
+          try {
+            // Step 3: Verify payment signature
+            const { data: verifyResponse } = await paymentService.verifyPayment(
+              razorpayOrderId,
+              response.razorpay_payment_id,
+              response.razorpay_signature
+            );
+
+            // Step 4: Create order with verified payment
+            if (verifyResponse.success) {
+              const { data: orderData } = await orderService.place({
+                shippingAddress: form,
+                paymentMethod: "razorpay",
+                razorpay_payment_id: response.razorpay_payment_id,
+              });
+
+              clearCart();
+              toast.success("Payment successful! Order created.");
+              navigate(`/orders/${orderData.data._id}`);
+            }
+          } catch (error) {
+            toast.error(
+              `Payment verification failed: ${getErrMsg(error)}`
+            );
+          } finally {
+            setLoading(false);
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            toast.error("Payment cancelled by user");
+            setLoading(false);
+          },
+        },
+      };
+
+      // Open checkout modal
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      toast.error(`Failed to initialize payment: ${getErrMsg(error)}`);
+      setLoading(false);
+    }
+  };
+
   const handlePlaceOrder = async () => {
+    // If Razorpay, initialize payment flow
+    if (paymentMethod === "razorpay") {
+      await initializeRazorpayPayment();
+      return;
+    }
+
+    // For COD, create order directly
     const required = ["fullName", "phone", "street", "city", "state", "pincode"];
     for (const k of required) {
-      if (!form[k]) { toast.error(`Please fill in ${k}`); return; }
+      if (!form[k]) {
+        toast.error(`Please fill in ${k}`);
+        return;
+      }
     }
+
     setLoading(true);
     try {
-      const { data } = await orderService.place({ shippingAddress: form, paymentMethod });
+      const { data } = await orderService.place({
+        shippingAddress: form,
+        paymentMethod,
+      });
       clearCart();
       toast.success("Order placed successfully!");
       navigate(`/orders/${data.data._id}`);
@@ -135,7 +232,7 @@ export default function Checkout() {
               <span className="font-display font-800 text-2xl text-amber-400">{formatCurrency(grandTotal)}</span>
             </div>
             <button onClick={handlePlaceOrder} disabled={loading || cart.items.length === 0} className="btn-primary w-full py-3 flex items-center justify-center gap-2">
-              {loading ? "Placing Order…" : "Place Order"}
+              {loading ? (paymentMethod === "razorpay" ? "Opening Payment…" : "Placing Order…") : "Place Order"}
             </button>
           </div>
         </div>

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
+import { WishlistProvider } from "./context/WishlistContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Pages
@@ -9,6 +10,7 @@ import Home from "./pages/Home";
 import ProductListing from "./pages/ProductListing";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
+import Wishlist from "./pages/Wishlist";
 import Checkout from "./pages/Checkout";
 import OrderHistory from "./pages/OrderHistory";
 import OrderDetail from "./pages/OrderDetail";
@@ -26,6 +28,7 @@ import SellerOrders from "./pages/seller/SellerOrders";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminOrders from "./pages/admin/AdminOrders";
+import AdminProducts from "./pages/admin/AdminProducts";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -35,9 +38,10 @@ export default function App() {
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <AuthProvider>
         <CartProvider>
-          <div className="min-h-screen flex flex-col bg-[var(--bg-primary)]">
-            <Navbar />
-            <main className="flex-1">
+          <WishlistProvider>
+            <div className="min-h-screen flex flex-col bg-[var(--bg-primary)]">
+              <Navbar />
+              <main className="flex-1">
               <Routes>
                 {/* Public */}
                 <Route path="/" element={<Home />} />
@@ -49,6 +53,7 @@ export default function App() {
                 {/* Buyer Protected */}
                 <Route element={<ProtectedRoute roles={["buyer"]} />}>
                   <Route path="/cart" element={<Cart />} />
+                  <Route path="/wishlist" element={<Wishlist />} />
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/orders" element={<OrderHistory />} />
                   <Route path="/orders/:id" element={<OrderDetail />} />
@@ -76,6 +81,7 @@ export default function App() {
                 <Route element={<ProtectedRoute roles={["admin"]} />}>
                   <Route path="/admin/dashboard" element={<AdminDashboard />} />
                   <Route path="/admin/users" element={<AdminUsers />} />
+                  <Route path="/admin/products" element={<AdminProducts />} />
                   <Route path="/admin/orders" element={<AdminOrders />} />
                 </Route>
 
@@ -107,6 +113,7 @@ export default function App() {
               },
             }}
           />
+          </WishlistProvider>
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>
