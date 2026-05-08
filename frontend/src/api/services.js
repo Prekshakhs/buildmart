@@ -93,6 +93,7 @@ export const paymentService = {
 // ─── Orders ───────────────────────────────────────────────────────────────────
 export const orderService = {
   place: (data) => API.post("/orders", data),
+  placeDirect: (data) => API.post("/orders/direct", data),
   getMyOrders: (params) => API.get("/orders", { params }),
   getById: (id) => API.get(`/orders/${id}`),
   cancel: (id, reason) => API.put(`/orders/${id}/cancel`, { reason }),

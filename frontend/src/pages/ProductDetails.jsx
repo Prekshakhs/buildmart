@@ -187,8 +187,18 @@ export default function ProductDetails() {
 
               <button
                 onClick={() => {
-                  addToCart(product._id, quantity).then(() => {
-                    navigate("/checkout");
+                  navigate("/direct-checkout", {
+                    state: {
+                      items: [{
+                        product,
+                        productId: product._id,
+                        name: product.name,
+                        image: product.images[0]?.url || "",
+                        quantity,
+                        unitPrice: calculatePrice(quantity, product.retailPrice, product.wholesaleTiers).unitPrice,
+                        totalPrice: calculatePrice(quantity, product.retailPrice, product.wholesaleTiers).totalPrice,
+                      }]
+                    }
                   });
                 }}
                 disabled={cartLoading}

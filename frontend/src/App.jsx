@@ -12,11 +12,13 @@ import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
 import Checkout from "./pages/Checkout";
+import DirectCheckout from "./pages/DirectCheckout";
 import OrderHistory from "./pages/OrderHistory";
 import OrderDetail from "./pages/OrderDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import MyReturns from "./pages/MyReturns";
 
 // Seller pages
 import SellerDashboard from "./pages/seller/SellerDashboard";
@@ -55,8 +57,10 @@ export default function App() {
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/wishlist" element={<Wishlist />} />
                   <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/direct-checkout" element={<DirectCheckout />} />
                   <Route path="/orders" element={<OrderHistory />} />
                   <Route path="/orders/:id" element={<OrderDetail />} />
+                  <Route path="/returns" element={<MyReturns />} />
                 </Route>
 
                 {/* Seller Protected */}

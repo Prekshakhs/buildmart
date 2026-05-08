@@ -10,6 +10,7 @@ import {
   LogOut,
   ChevronDown,
   Heart,
+  RotateCcw,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
@@ -166,6 +167,13 @@ export default function Navbar() {
                           className="flex items-center gap-2 px-4 py-2 text-sm text-steel-300 hover:text-steel-50 hover:bg-steel-800 transition-colors"
                         >
                           <Package size={14} /> My Orders
+                        </Link>
+                        <Link
+                          to="/returns"
+                          onClick={() => setUserOpen(false)}
+                          className="flex items-center gap-2 px-4 py-2 text-sm text-steel-300 hover:text-steel-50 hover:bg-steel-800 transition-colors"
+                        >
+                          <RotateCcw size={14} /> My Returns
                         </Link>
                       </>
                     )}

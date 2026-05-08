@@ -122,6 +122,119 @@ const placeOrder = asyncHandler(async (req, res) => {
   });
 });
 
+// ─── @POST /api/orders/direct ─────────────────────────────────────────────────
+// Buyer: Place direct order (Buy Now) without using cart
+const placeDirectOrder = asyncHandler(async (req, res) => {
+  const { items, shippingAddress, paymentMethod = "cod", razorpay_payment_id } = req.body;
+
+  if (!shippingAddress) {
+    res.status(400);
+    throw new Error("Shipping address is required");
+  }
+
+  if (!items || !Array.isArray(items) || items.length === 0) {
+    res.status(400);
+    throw new Error("Items array is required and must not be empty");
+  }
+
+  // Validate payment method
+  if (paymentMethod === "razorpay" && !razorpay_payment_id) {
+    res.status(400);
+    throw new Error("Razorpay payment ID is required for razorpay payment method");
+  }
+
+  // Validate stock and build order items
+  const orderItems = [];
+  let itemsTotal = 0;
+
+  for (const item of items) {
+    const product = await Product.findById(item.productId).select(
+      "name images retailPrice wholesaleTiers stock seller isActive"
+    );
+
+    if (!product || !product.isActive) {
+      res.status(400);
+      throw new Error(`Product "${product?.name || "unknown"}" is no longer available`);
+    }
+
+    if (product.stock < item.quantity) {
+      res.status(400);
+      throw new Error(`Insufficient stock for "${product.name}". Available: ${product.stock}`);
+    }
+
+    const { unitPrice, totalPrice } = calculatePrice(
+      item.quantity,
+      product.retailPrice,
+      product.wholesaleTiers
+    );
+
+    orderItems.push({
+      product: product._id,
+      name: product.name,
+      image: product.images[0]?.url || "",
+      quantity: item.quantity,
+      unitPrice,
+      totalPrice,
+      seller: product.seller,
+    });
+
+    itemsTotal += totalPrice;
+  }
+
+  const shippingCharges = itemsTotal >= 5000 ? 0 : 99;
+  const grandTotal = parseFloat((itemsTotal + shippingCharges).toFixed(2));
+
+  // Build payment info
+  const paymentInfo =
+    paymentMethod === "razorpay"
+      ? {
+          id: razorpay_payment_id,
+          status: "paid",
+          paidAt: new Date(),
+        }
+      : {
+          id: null,
+          status: "pending",
+        };
+
+  // Create order
+  const order = await Order.create({
+    buyer: req.user._id,
+    items: orderItems,
+    shippingAddress,
+    paymentMethod,
+    paymentInfo,
+    itemsTotal: parseFloat(itemsTotal.toFixed(2)),
+    shippingCharges,
+    grandTotal,
+    status: paymentMethod === "razorpay" ? "confirmed" : "pending",
+    statusHistory: [
+      {
+        status: paymentMethod === "razorpay" ? "confirmed" : "pending",
+        note:
+          paymentMethod === "razorpay"
+            ? "Payment received, order confirmed (Direct purchase)"
+            : "Order placed (Direct purchase)",
+      },
+    ],
+  });
+
+  // Decrement stock for each item
+  for (const item of items) {
+    await Product.findByIdAndUpdate(item.productId, {
+      $inc: { stock: -item.quantity },
+    });
+  }
+
+  await order.populate("items.product", "name images");
+
+  res.status(201).json({
+    success: true,
+    message: "Order placed successfully",
+    data: order,
+  });
+});
+
 // ─── @GET /api/orders ─────────────────────────────────────────────────────────
 // Buyer: Get own orders
 const getMyOrders = asyncHandler(async (req, res) => {
@@ -339,6 +452,7 @@ const cancelOrderItem = asyncHandler(async (req, res) => {
 
 module.exports = {
   placeOrder,
+  placeDirectOrder,
   getMyOrders,
   getOrderById,
   cancelOrder,
