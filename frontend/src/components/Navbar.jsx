@@ -15,6 +15,7 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
+import NotificationBell from "./NotificationBell";
 
 export default function Navbar() {
   const { user, logout, isAuthenticated } = useAuth();
@@ -77,6 +78,9 @@ export default function Navbar() {
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
+            {/* Notification Bell (authenticated users) */}
+            {isAuthenticated && <NotificationBell />}
+
             {/* Cart & Wishlist (buyers only) */}
             {(!user || user.role === "buyer") && (
               <>
@@ -151,6 +155,13 @@ export default function Navbar() {
                       className="flex items-center gap-2 px-4 py-2 text-sm text-steel-300 hover:text-steel-50 hover:bg-steel-800 transition-colors"
                     >
                       <User size={14} /> My Profile
+                    </Link>
+                    <Link
+                      to="/notification-settings"
+                      onClick={() => setUserOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-steel-300 hover:text-steel-50 hover:bg-steel-800 transition-colors"
+                    >
+                      <span className="text-sm">🔔</span> Notification Settings
                     </Link>
                     {user.role === "buyer" && (
                       <>

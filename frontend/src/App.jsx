@@ -19,6 +19,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import MyReturns from "./pages/MyReturns";
+import NotificationCenter from "./pages/NotificationCenter";
+import NotificationSettings from "./pages/NotificationSettings";
 
 // Seller pages
 import SellerDashboard from "./pages/seller/SellerDashboard";
@@ -61,6 +63,7 @@ export default function App() {
                   <Route path="/orders" element={<OrderHistory />} />
                   <Route path="/orders/:id" element={<OrderDetail />} />
                   <Route path="/returns" element={<MyReturns />} />
+                  <Route path="/notifications" element={<NotificationCenter />} />
                 </Route>
 
                 {/* Seller Protected */}
@@ -92,6 +95,7 @@ export default function App() {
                 {/* Protected for all authenticated users */}
                 <Route element={<ProtectedRoute roles={["buyer", "seller", "admin"]} />}>
                   <Route path="/profile" element={<Profile />} />
+                  <Route path="/notification-settings" element={<NotificationSettings />} />
                 </Route>
               </Routes>
             </main>

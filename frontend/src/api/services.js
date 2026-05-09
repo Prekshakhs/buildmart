@@ -128,7 +128,18 @@ export const sellerService = {
     API.put("/returns/confirm-received", { orderId, itemIndex }),
 };
 
-// ─── Admin ────────────────────────────────────────────────────────────────────
+// ─── Notifications ────────────────────────────────────────────────────────
+export const notificationService = {
+  getNotifications: (params) => API.get("/notifications", { params }),
+  markAsRead: (id) => API.put(`/notifications/${id}/read`),
+  delete: (id) => API.delete(`/notifications/${id}`),
+  markAllAsRead: () => API.put("/notifications/mark-all-read"),
+  getPreferences: () => API.get("/notifications/preferences"),
+  updatePreferences: (prefs) => API.put("/notifications/preferences", prefs),
+  registerDevice: (token) => API.post("/notifications/register-device", { token }),
+};
+
+// ─── Admin ────────────────────────────────────────────────────────────────
 export const adminService = {
   getDashboard: () => API.get("/admin/dashboard"),
   getUsers: (params) => API.get("/admin/users", { params }),
