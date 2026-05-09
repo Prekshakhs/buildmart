@@ -1,6 +1,59 @@
 const asyncHandler = require("express-async-handler");
 const Order = require("../models/Order.model");
 const Product = require("../models/Product.model");
+const notificationService = require("../services/notificationService");
+
+// Buyer: Get all their returns
+const getMyReturns = asyncHandler(async (req, res) => {
+  const { status } = req.query;
+
+  // Find all orders with return requests from this buyer
+  const match = { buyer: req.user._id };
+  if (status && status !== "all") {
+    match["items.returnStatus"] = status;
+  }
+
+  const returns = await Order.aggregate([
+    { $unwind: "$items" },
+    { $match: match },
+    {
+      $lookup: {
+        from: "products",
+        localField: "items.product",
+        foreignField: "_id",
+        as: "productData",
+      },
+    },
+    { $sort: { "items.returnRequestedAt": -1 } },
+    {
+      $project: {
+        _id: "$items._id",
+        orderId: "$_id",
+        productId: "$items.product",
+        productName: "$items.name",
+        productImage: "$items.image",
+        quantity: "$items.quantity",
+        refundAmount: "$items.totalPrice",
+        reason: "$items.returnReason",
+        description: "$items.returnDescription",
+        status: "$items.returnStatus",
+        initiatedAt: "$items.returnRequestedAt",
+        refundedAt: "$items.refundProcessedAt",
+        statusHistory: [
+          {
+            status: "$items.returnStatus",
+            updatedAt: "$items.returnRequestedAt",
+          },
+        ],
+      },
+    },
+  ]);
+
+  res.json({
+    success: true,
+    data: returns,
+  });
+});
 
 // Buyer: Request return for an item
 const requestReturn = asyncHandler(async (req, res) => {
@@ -30,7 +83,7 @@ const requestReturn = asyncHandler(async (req, res) => {
   const item = order.items[itemIndex];
 
   // Only allow return for delivered items
-  if (order.status !== "delivered") {
+  if (item.status !== "delivered") {
     res.status(400);
     throw new Error("Item must be delivered to return");
   }
@@ -55,6 +108,15 @@ const requestReturn = asyncHandler(async (req, res) => {
   item.returnRequestedAt = new Date();
 
   await order.save();
+
+  // Send notification
+  notificationService.notify(req.user._id, "return_initiated", {
+    orderId: order._id,
+    orderNumber: order.orderNumber,
+    productName: item.name,
+    refundAmount: item.totalPrice,
+    reason: RETURN_REASONS[reason] || reason,
+  });
 
   res.status(201).json({
     success: true,
@@ -152,6 +214,13 @@ const approveReturn = asyncHandler(async (req, res) => {
 
   await order.save();
 
+  // Send notification to buyer
+  notificationService.notify(order.buyer, "return_approved", {
+    orderId: order._id,
+    productName: item.name,
+    refundAmount: item.totalPrice,
+  });
+
   res.json({
     success: true,
     message: "Return approved",
@@ -188,6 +257,13 @@ const rejectReturn = asyncHandler(async (req, res) => {
   item.returnStatus = "rejected";
 
   await order.save();
+
+  // Send notification to buyer
+  notificationService.notify(order.buyer, "return_rejected", {
+    orderId: order._id,
+    orderNumber: order.orderNumber,
+    productName: item.name,
+  });
 
   res.json({
     success: true,
@@ -274,6 +350,13 @@ const confirmReturnReceived = asyncHandler(async (req, res) => {
 
   await order.save();
 
+  // Send notification to buyer
+  notificationService.notify(order.buyer, "return_refunded", {
+    orderId: order._id,
+    productName: item.name,
+    refundAmount: item.totalPrice,
+  });
+
   res.json({
     success: true,
     message: "Refund processed",
@@ -282,6 +365,7 @@ const confirmReturnReceived = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  getMyReturns,
   requestReturn,
   getReturnRequests,
   approveReturn,

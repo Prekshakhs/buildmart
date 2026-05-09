@@ -252,7 +252,7 @@ export function OrderDetail() {
                 </p>
                 {/* Cancel item button */}
                 {item.cancellationStatus !== "cancelled" &&
-                  !["delivered", "shipped"].includes(order.status) && (
+                  !["delivered", "shipped"].includes(item.status) && (
                     <button
                       onClick={() => {
                         setItemToCancel({ index: i, name: item.name });
@@ -264,8 +264,8 @@ export function OrderDetail() {
                       <X size={18} />
                     </button>
                   )}
-                {/* Return item button - only for delivered orders */}
-                {item.cancellationStatus !== "cancelled" && order.status === "delivered" && (
+                {/* Return item button - only for delivered items */}
+                {item.cancellationStatus !== "cancelled" && item.status === "delivered" && (
                   <button
                     onClick={() => {
                       setItemToReturn({ index: i, name: item.name, quantity: item.quantity, totalPrice: item.totalPrice });

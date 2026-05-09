@@ -5,6 +5,7 @@ const Order = require("../models/Order.model");
 const crypto = require("crypto");
 const razorpayInstance = require("../config/razorpay");
 const { calculatePrice } = require("../utils/pricingCalculator");
+const notificationService = require("../services/notificationService");
 
 // ─── @POST /api/payments/create-order ──────────────────────────────────────
 // Create a Razorpay order (get the order_id for checkout modal)
@@ -139,6 +140,13 @@ const refundPayment = asyncHandler(async (req, res) => {
     order.paymentInfo.refundId = refund.id;
     order.paymentInfo.refundedAt = new Date();
     await order.save();
+
+    // Send notification to buyer
+    notificationService.notify(order.buyer, "payment_refunded", {
+      orderId: order._id,
+      amount: order.grandTotal,
+      reason,
+    });
 
     res.json({
       success: true,

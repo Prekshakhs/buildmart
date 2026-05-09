@@ -3,6 +3,7 @@ const router = express.Router();
 console.log("✓ Return routes file loaded");
 const { protect, authorize } = require("../middleware/authMiddleware");
 const {
+  getMyReturns,
   requestReturn,
   getReturnRequests,
   approveReturn,
@@ -13,6 +14,9 @@ const {
 
 // Buyer: Request return
 router.post("/request", protect, authorize("buyer"), requestReturn);
+
+// Buyer: Get my returns
+router.get("/my-returns", protect, authorize("buyer"), getMyReturns);
 
 // Buyer: Mark return as shipped
 router.put("/ship", protect, authorize("buyer"), markReturnShipped);

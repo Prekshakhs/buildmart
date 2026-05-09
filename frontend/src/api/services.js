@@ -106,6 +106,7 @@ export const orderService = {
     API.post("/returns/request", { orderId, itemIndex, ...data }),
   markReturnShipped: (orderId, itemIndex, trackingId) =>
     API.put("/returns/ship", { orderId, itemIndex, trackingId }),
+  getMyReturns: (params) => API.get("/returns/my-returns", { params }),
 };
 
 // ─── Seller ───────────────────────────────────────────────────────────────────

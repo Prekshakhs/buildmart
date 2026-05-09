@@ -22,6 +22,7 @@ const adminRoutes = require("./routes/admin.routes");
 const categoryRoutes = require("./routes/category.routes");
 const reviewRoutes = require("./routes/review.routes");
 const returnRoutes = require("./routes/return.routes");
+const notificationRoutes = require("./routes/notification.routes");
 
 // Connect to Database
 connectDB();
@@ -89,6 +90,7 @@ app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/returns", returnRoutes);
+app.use("/api/notifications", notificationRoutes);
 app.use("/api/seller", sellerRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/categories", categoryRoutes);

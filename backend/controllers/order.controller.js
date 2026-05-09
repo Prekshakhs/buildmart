@@ -3,6 +3,7 @@ const Order = require("../models/Order.model");
 const Cart = require("../models/Cart.model");
 const Product = require("../models/Product.model");
 const { calculatePrice } = require("../utils/pricingCalculator");
+const notificationService = require("../services/notificationService");
 
 // ─── @POST /api/orders ────────────────────────────────────────────────────────
 // Buyer: Place a new order
@@ -114,6 +115,14 @@ const placeOrder = asyncHandler(async (req, res) => {
   await Cart.findOneAndUpdate({ user: req.user._id }, { items: [] });
 
   await order.populate("items.product", "name images");
+
+  // Send notification
+  notificationService.notify(req.user._id, "order_placed", {
+    orderId: order._id,
+    orderNumber: order.orderNumber,
+    grandTotal: order.grandTotal,
+    itemCount: order.items.length,
+  });
 
   res.status(201).json({
     success: true,
@@ -228,6 +237,14 @@ const placeDirectOrder = asyncHandler(async (req, res) => {
 
   await order.populate("items.product", "name images");
 
+  // Send notification
+  notificationService.notify(req.user._id, "order_placed", {
+    orderId: order._id,
+    orderNumber: order.orderNumber,
+    grandTotal: order.grandTotal,
+    itemCount: order.items.length,
+  });
+
   res.status(201).json({
     success: true,
     message: "Order placed successfully",
@@ -312,6 +329,14 @@ const cancelOrder = asyncHandler(async (req, res) => {
   }
 
   await order.save();
+
+  // Send cancellation notification
+  notificationService.notify(order.buyer, "order_cancelled", {
+    orderId: order._id,
+    orderNumber: order.orderNumber,
+    reason: order.cancellationReason,
+  });
+
   res.json({ success: true, message: "Order cancelled", data: order });
 });
 
@@ -363,6 +388,22 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
   }
 
   await order.save();
+
+  // Send notification to buyer
+  if (status === "shipped") {
+    notificationService.notify(order.buyer, "order_shipped", {
+      orderId: order._id,
+      orderNumber: order.orderNumber,
+      itemCount: order.items.length,
+    });
+  } else if (status === "delivered") {
+    notificationService.notify(order.buyer, "order_delivered", {
+      orderId: order._id,
+      orderNumber: order.orderNumber,
+      itemCount: order.items.length,
+    });
+  }
+
   res.json({
     success: true,
     message: `Item status updated to "${status}"`,

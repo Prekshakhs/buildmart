@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { X, Loader, Send } from "lucide-react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { orderService } from "../api/services";
 
 const RETURN_REASONS = [

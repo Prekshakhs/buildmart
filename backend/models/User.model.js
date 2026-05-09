@@ -55,6 +55,28 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    notificationPreferences: {
+      orders: {
+        email: { type: Boolean, default: true },
+        push: { type: Boolean, default: true },
+        inApp: { type: Boolean, default: true },
+      },
+      returns: {
+        email: { type: Boolean, default: true },
+        push: { type: Boolean, default: true },
+        inApp: { type: Boolean, default: true },
+      },
+      payments: {
+        email: { type: Boolean, default: true },
+        push: { type: Boolean, default: true },
+        inApp: { type: Boolean, default: true },
+      },
+      account: {
+        email: { type: Boolean, default: true },
+        push: { type: Boolean, default: false },
+        inApp: { type: Boolean, default: true },
+      },
+    },
   },
   {
     timestamps: true,
