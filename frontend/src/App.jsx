@@ -4,6 +4,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import { WishlistProvider } from "./context/WishlistContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { useScrollToTop } from "./hooks/useScrollToTop";
 
 // Pages
 import Home from "./pages/Home";
@@ -42,15 +43,13 @@ import AdminProducts from "./pages/admin/AdminProducts";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-export default function App() {
+function AppContent() {
+  useScrollToTop();
+
   return (
-    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <AuthProvider>
-        <CartProvider>
-          <WishlistProvider>
-            <div className="min-h-screen flex flex-col bg-[var(--bg-primary)]">
-              <Navbar />
-              <main className="flex-1">
+    <div className="min-h-screen flex flex-col bg-[var(--bg-primary)]">
+      <Navbar />
+      <main className="flex-1">
               <Routes>
                 {/* Public */}
                 <Route path="/" element={<Home />} />
@@ -111,26 +110,36 @@ export default function App() {
             </main>
             <Footer />
           </div>
+        </>;
+}
 
-          <Toaster
-            position="top-right"
-            toastOptions={{
-              duration: 3000,
-              style: {
-                background: "#1e2e3e",
-                color: "#e8eef4",
-                border: "1px solid #2c3e4e",
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "14px",
-              },
-              success: {
-                iconTheme: { primary: "#fbbf24", secondary: "#0f1820" },
-              },
-              error: {
-                iconTheme: { primary: "#f87171", secondary: "#0f1820" },
-              },
-            }}
-          />
+export default function App() {
+  return (
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <AuthProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <AppContent />
+
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                duration: 3000,
+                style: {
+                  background: "#1e2e3e",
+                  color: "#e8eef4",
+                  border: "1px solid #2c3e4e",
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "14px",
+                },
+                success: {
+                  iconTheme: { primary: "#fbbf24", secondary: "#0f1820" },
+                },
+                error: {
+                  iconTheme: { primary: "#f87171", secondary: "#0f1820" },
+                },
+              }}
+            />
           </WishlistProvider>
         </CartProvider>
       </AuthProvider>
