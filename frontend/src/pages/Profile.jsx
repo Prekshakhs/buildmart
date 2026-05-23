@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { User, MapPin, Lock, Settings, AlertCircle } from "lucide-react";
+import { User, MapPin, Lock, Settings, AlertCircle, Smartphone, Clock } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { PageLoader, ErrorMessage } from "../components/Loaders";
 import ProfilePictureUpload from "../components/ProfilePictureUpload";
@@ -7,6 +7,8 @@ import ProfileEditor from "../components/ProfileEditor";
 import AddressManager from "../components/AddressManager";
 import SellerProfileSection from "../components/SellerProfileSection";
 import ChangePasswordModal from "../components/ChangePasswordModal";
+import ActiveSessions from "../components/ActiveSessions";
+import LoginHistory from "../components/LoginHistory";
 import { profileService } from "../api/services";
 
 export default function Profile() {
@@ -167,6 +169,30 @@ export default function Profile() {
                 <Lock size={14} />
                 Password
               </button>
+              <button
+                onClick={() => setActiveTab("sessions")}
+                className={`w-full px-3 py-2 rounded text-xs font-semibold uppercase tracking-wide transition-colors flex items-center gap-2 ${
+                  activeTab === "sessions"
+                    ? "bg-amber-500 text-white"
+                    : "bg-steel-800 text-steel-300 hover:bg-steel-700"
+                }`}
+                type="button"
+              >
+                <Smartphone size={14} />
+                Sessions
+              </button>
+              <button
+                onClick={() => setActiveTab("loginHistory")}
+                className={`w-full px-3 py-2 rounded text-xs font-semibold uppercase tracking-wide transition-colors flex items-center gap-2 ${
+                  activeTab === "loginHistory"
+                    ? "bg-amber-500 text-white"
+                    : "bg-steel-800 text-steel-300 hover:bg-steel-700"
+                }`}
+                type="button"
+              >
+                <Clock size={14} />
+                Login History
+              </button>
             </div>
           </div>
         </div>
@@ -223,6 +249,23 @@ export default function Profile() {
                 sellerInfo={profileData?.sellerInfo}
                 onUpdate={handleProfileUpdate}
               />
+            </div>
+          )}
+
+          {/* Sessions Tab */}
+          {activeTab === "sessions" && (
+            <div className="bg-steel-900 border border-steel-800 rounded-lg p-6">
+              <ActiveSessions />
+            </div>
+          )}
+
+          {/* Login History Tab */}
+          {activeTab === "loginHistory" && (
+            <div className="bg-steel-900 border border-steel-800 rounded-lg p-6">
+              <h3 className="text-lg font-display font-700 text-steel-100 mb-6">
+                Login History
+              </h3>
+              <LoginHistory />
             </div>
           )}
         </div>

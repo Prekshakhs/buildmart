@@ -29,6 +29,7 @@ const seedAdmin = async () => {
       role: "admin",
       phone: "+91-9876543210",
       isActive: true,
+      emailVerified: true, // Admin account pre-verified
     });
 
     await adminUser.save();

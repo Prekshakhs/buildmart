@@ -4,9 +4,14 @@ import API from "./axiosInstance";
 export const authService = {
   register: (data) => API.post("/auth/register", data),
   login: (data) => API.post("/auth/login", data),
+  logout: () => API.post("/auth/logout"),
   getMe: () => API.get("/auth/me"),
-  updateProfile: (data) => API.put("/auth/profile", data),
+  verifyEmail: (token) => API.get(`/auth/verify-email?token=${token}`),
+  forgotPassword: (email) => API.post("/auth/forgot-password", { email }),
+  resetPassword: (token, newPassword) => API.post("/auth/reset-password", { token, newPassword }),
   changePassword: (data) => API.put("/auth/change-password", data),
+  getLoginHistory: (limit = 20) => API.get(`/auth/login-history?limit=${limit}`),
+  updateProfile: (data) => API.put("/auth/profile", data),
 };
 
 // ─── Profile ───────────────────────────────────────────────────────────────────
@@ -148,4 +153,50 @@ export const adminService = {
   getOrders: (params) => API.get("/admin/orders", { params }),
   getProducts: (params) => API.get("/admin/products", { params }),
   removeProduct: (id) => API.delete(`/admin/products/${id}`),
+};
+
+// ─── Security Alerts ──────────────────────────────────────────────────────────
+export const securityAlertService = {
+  getAlerts: (params) => API.get("/security-alerts", { params }),
+  getUnreadCount: () => API.get("/security-alerts/unread-count"),
+  getAlert: (id) => API.get(`/security-alerts/${id}`),
+  markAsRead: (id) => API.put(`/security-alerts/${id}/read`),
+  markAllAsRead: () => API.put("/security-alerts/read-all"),
+  deleteAlert: (id) => API.delete(`/security-alerts/${id}`),
+};
+
+// ─── Sessions ──────────────────────────────────────────────────────────────
+export const sessionService = {
+  getActiveSessions: () => API.get("/sessions"),
+  getSession: (id) => API.get(`/sessions/${id}`),
+  revokeSession: (id) => API.delete(`/sessions/${id}`),
+  revokeAllSessions: (data) => API.post("/sessions/revoke-all", data),
+};
+
+// ─── FAQs ──────────────────────────────────────────────────────────────────────
+export const faqService = {
+  getAll: (page = 1) => API.get("/faqs", { params: { page, limit: 10 } }),
+  getById: (id) => API.get(`/faqs/${id}`),
+  search: (query, page = 1) =>
+    API.get("/faqs/search", { params: { q: query, page, limit: 10 } }),
+  getByCategory: (category, page = 1) =>
+    API.get(`/faqs/category/${category}`, { params: { page, limit: 10 } }),
+  markHelpful: (id) => API.post(`/faqs/${id}/helpful`),
+  markUnhelpful: (id) => API.post(`/faqs/${id}/unhelpful`),
+  // Admin endpoints
+  getAllAdmin: (params) => API.get("/faqs/admin/all", { params }),
+  create: (data) => API.post("/faqs", data),
+  update: (id, data) => API.put(`/faqs/${id}`, data),
+  delete: (id) => API.delete(`/faqs/${id}`),
+};
+
+// ─── Contact ───────────────────────────────────────────────────────────────────
+export const contactService = {
+  submit: (data) => API.post("/contact", data),
+  // Admin endpoints
+  getAll: (params) => API.get("/contact/admin", { params }),
+  getById: (id) => API.get(`/contact/admin/${id}`),
+  getStats: () => API.get("/contact/admin/stats"),
+  updateStatus: (id, data) => API.patch(`/contact/admin/${id}/status`, data),
+  reply: (id, data) => API.post(`/contact/admin/${id}/reply`, data),
 };

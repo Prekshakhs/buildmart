@@ -3,26 +3,68 @@ import axios from "axios";
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:7777/api",
   headers: { "Content-Type": "application/json" },
+  withCredentials: true, // Enable sending cookies with requests
 });
 
-// Attach JWT token to every request
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+let isRefreshing = false;
+let refreshSubscribers = [];
 
-// Handle 401 globally — clear storage and redirect to login
+const subscribeTokenRefresh = (cb) => {
+  refreshSubscribers.push(cb);
+};
+
+const onTokenRefreshed = () => {
+  refreshSubscribers.forEach((cb) => cb());
+  refreshSubscribers = [];
+};
+
+// Response interceptor: handle token refresh and 401 errors
 API.interceptors.response.use(
   (res) => res,
-  (err) => {
+  async (err) => {
+    const originalRequest = err.config;
+
+    // Suppress 401 errors for initial auth check (getMe, refresh on app load)
     if (err.response?.status === 401) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      window.location.href = "/login";
+      const isAuthCheckRequest =
+        originalRequest.url?.includes("/auth/me") ||
+        originalRequest.url?.includes("/auth/refresh");
+
+      if (isAuthCheckRequest && !originalRequest._retry) {
+        // Silently handle auth check failures - just reject without logging
+        return Promise.reject(err);
+      }
     }
+
+    if (err.response?.status === 401 && !originalRequest._retry) {
+      if (!isRefreshing) {
+        isRefreshing = true;
+        originalRequest._retry = true;
+
+        try {
+          // Try to refresh the access token
+          await API.post("/auth/refresh");
+          onTokenRefreshed();
+          return API(originalRequest);
+        } catch (refreshErr) {
+          // Refresh failed, clear auth and redirect to login
+          isRefreshing = false;
+          refreshSubscribers = [];
+          window.location.href = "/login";
+          return Promise.reject(refreshErr);
+        }
+      }
+
+      // If already refreshing, queue the request
+      return new Promise((resolve) => {
+        subscribeTokenRefresh(() => {
+          resolve(API(originalRequest));
+        });
+      });
+    }
+
     return Promise.reject(err);
-  },
+  }
 );
 
 export default API;

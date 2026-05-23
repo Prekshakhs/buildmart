@@ -21,6 +21,11 @@ import Profile from "./pages/Profile";
 import MyReturns from "./pages/MyReturns";
 import NotificationCenter from "./pages/NotificationCenter";
 import NotificationSettings from "./pages/NotificationSettings";
+import VerifyEmail from "./pages/VerifyEmail";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import HelpCenter from "./pages/HelpCenter";
+import ContactUs from "./pages/ContactUs";
 
 // Seller pages
 import SellerDashboard from "./pages/seller/SellerDashboard";
@@ -53,6 +58,11 @@ export default function App() {
                 <Route path="/products/:id" element={<ProductDetails />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/verify-email" element={<VerifyEmail />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/help-center" element={<HelpCenter />} />
+                <Route path="/contact-us" element={<ContactUs />} />
 
                 {/* Buyer Protected */}
                 <Route element={<ProtectedRoute roles={["buyer"]} />}>

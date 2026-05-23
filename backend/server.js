@@ -3,6 +3,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
+const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -23,11 +24,18 @@ const categoryRoutes = require("./routes/category.routes");
 const reviewRoutes = require("./routes/review.routes");
 const returnRoutes = require("./routes/return.routes");
 const notificationRoutes = require("./routes/notification.routes");
+const sessionRoutes = require("./routes/session.routes");
+const securityAlertRoutes = require("./routes/securityAlert.routes");
+const faqRoutes = require("./routes/faq.routes");
+const contactRoutes = require("./routes/contact.routes");
 
 // Connect to Database
 connectDB();
 
 const app = express();
+
+// ─── Trust Proxy (for accurate IP addresses) ───────────────────────────────────
+app.set("trust proxy", 1);
 
 // ─── Security Middleware ───────────────────────────────────────────────────────
 app.use(helmet());
@@ -68,6 +76,7 @@ app.use(
 );
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -95,6 +104,10 @@ app.use("/api/seller", sellerRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/sessions", sessionRoutes);
+app.use("/api/security-alerts", securityAlertRoutes);
+app.use("/api/faqs", faqRoutes);
+app.use("/api/contact", contactRoutes);
 
 // ─── Error Handling ────────────────────────────────────────────────────────────
 app.use(notFound);

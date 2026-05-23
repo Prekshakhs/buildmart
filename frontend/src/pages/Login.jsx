@@ -85,6 +85,15 @@ export function Login() {
             {loading ? "Signing in…" : "Sign In"}
           </button>
 
+          <p className="text-right">
+            <Link
+              to="/forgot-password"
+              className="text-amber-400 hover:text-amber-300 transition-colors text-xs font-body"
+            >
+              Forgot password?
+            </Link>
+          </p>
+
           <p className="text-center text-sm text-steel-500 font-body">
             Don't have an account?{" "}
             <Link

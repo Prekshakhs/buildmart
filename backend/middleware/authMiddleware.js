@@ -2,11 +2,13 @@ const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/User.model");
 
-// ─── Protect: Verify JWT Token ─────────────────────────────────────────────────
+// ─── Protect: Verify JWT Token (from cookies or header) ──────────────────────
 const protect = asyncHandler(async (req, res, next) => {
   let token;
 
-  if (req.headers.authorization?.startsWith("Bearer ")) {
+  if (req.cookies.accessToken) {
+    token = req.cookies.accessToken;
+  } else if (req.headers.authorization?.startsWith("Bearer ")) {
     token = req.headers.authorization.split(" ")[1];
   }
 
@@ -29,8 +31,15 @@ const protect = asyncHandler(async (req, res, next) => {
       throw new Error("Your account has been deactivated");
     }
 
+    req.user.lastActive = new Date();
+    await req.user.save();
+
     next();
   } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      res.status(401);
+      throw new Error("Token expired");
+    }
     res.status(401);
     throw new Error("Not authorized, token failed");
   }
