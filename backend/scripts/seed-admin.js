@@ -24,8 +24,8 @@ const seedAdmin = async () => {
     // Create admin user
     const adminUser = new User({
       name: "Admin User",
-      email: "admin@buildmart.com",
-      password: "Admin@123",
+      email: "pickmytool@gmail.com",
+      password: "9876543210",
       role: "admin",
       phone: "+91-9876543210",
       isActive: true,
@@ -36,8 +36,8 @@ const seedAdmin = async () => {
     console.log("✅ Admin user created successfully!");
     console.log("\n📝 Admin Login Details:");
     console.log("━".repeat(40));
-    console.log(`  Email:    admin@buildmart.com`);
-    console.log(`  Password: Admin@123`);
+    console.log(`  Email:    pickmytool@gmail.com`);
+    console.log(`  Password: 9876543210`);
     console.log("━".repeat(40));
 
     process.exit(0);
