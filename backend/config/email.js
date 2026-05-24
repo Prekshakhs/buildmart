@@ -24,7 +24,7 @@ const emailTemplates = {
         </div>
         <p>We'll keep you updated on your shipment status.</p>
         <a href="${process.env.CLIENT_URL}/orders/${data.orderId}" style="display: inline-block; padding: 10px 20px; background: #fbbf24; color: #0f1820; text-decoration: none; border-radius: 5px; margin-top: 20px;">View Order</a>
-        <p style="color: #999; margin-top: 30px; font-size: 12px;">BuildMart Team</p>
+        <p style="color: #999; margin-top: 30px; font-size: 12px;">PickMyTools Team</p>
       </div>
     `,
   }),
@@ -42,7 +42,7 @@ const emailTemplates = {
         </div>
         <p>You can track your order in real-time on our platform.</p>
         <a href="${process.env.CLIENT_URL}/orders/${data.orderId}" style="display: inline-block; padding: 10px 20px; background: #fbbf24; color: #0f1820; text-decoration: none; border-radius: 5px; margin-top: 20px;">Track Order</a>
-        <p style="color: #999; margin-top: 30px; font-size: 12px;">BuildMart Team</p>
+        <p style="color: #999; margin-top: 30px; font-size: 12px;">PickMyTools Team</p>
       </div>
     `,
   }),
@@ -61,7 +61,7 @@ const emailTemplates = {
         <p>Please inspect the items and let us know if you need any assistance.</p>
         <p style="margin-top: 20px;"><strong>Not satisfied?</strong> You can initiate a return within 30 days.</p>
         <a href="${process.env.CLIENT_URL}/orders/${data.orderId}" style="display: inline-block; padding: 10px 20px; background: #fbbf24; color: #0f1820; text-decoration: none; border-radius: 5px; margin-top: 20px;">View Order</a>
-        <p style="color: #999; margin-top: 30px; font-size: 12px;">BuildMart Team</p>
+        <p style="color: #999; margin-top: 30px; font-size: 12px;">PickMyTools Team</p>
       </div>
     `,
   }),
@@ -81,7 +81,7 @@ const emailTemplates = {
         </div>
         <p>The seller will review your request within 2-3 business days.</p>
         <a href="${process.env.CLIENT_URL}/returns" style="display: inline-block; padding: 10px 20px; background: #fbbf24; color: #0f1820; text-decoration: none; border-radius: 5px; margin-top: 20px;">View Returns</a>
-        <p style="color: #999; margin-top: 30px; font-size: 12px;">BuildMart Team</p>
+        <p style="color: #999; margin-top: 30px; font-size: 12px;">PickMyTools Team</p>
       </div>
     `,
   }),
@@ -101,7 +101,7 @@ const emailTemplates = {
           <p><strong>Refund Amount: ₹${data.refundAmount}</strong></p>
         </div>
         <a href="${process.env.CLIENT_URL}/returns" style="display: inline-block; padding: 10px 20px; background: #fbbf24; color: #0f1820; text-decoration: none; border-radius: 5px; margin-top: 20px;">View Return Details</a>
-        <p style="color: #999; margin-top: 30px; font-size: 12px;">BuildMart Team</p>
+        <p style="color: #999; margin-top: 30px; font-size: 12px;">PickMyTools Team</p>
       </div>
     `,
   }),
@@ -118,7 +118,7 @@ const emailTemplates = {
           <p>If you believe this is incorrect, please contact our support team.</p>
         </div>
         <a href="${process.env.CLIENT_URL}/returns" style="display: inline-block; padding: 10px 20px; background: #fbbf24; color: #0f1820; text-decoration: none; border-radius: 5px; margin-top: 20px;">View Returns</a>
-        <p style="color: #999; margin-top: 30px; font-size: 12px;">BuildMart Team</p>
+        <p style="color: #999; margin-top: 30px; font-size: 12px;">PickMyTools Team</p>
       </div>
     `,
   }),
@@ -135,8 +135,8 @@ const emailTemplates = {
           <p>Amount: <strong>₹${data.refundAmount}</strong></p>
           <p>The amount will be credited to your original payment method within 5-7 business days.</p>
         </div>
-        <p>Thank you for shopping with BuildMart!</p>
-        <p style="color: #999; margin-top: 30px; font-size: 12px;">BuildMart Team</p>
+        <p>Thank you for shopping with PickMyTools!</p>
+        <p style="color: #999; margin-top: 30px; font-size: 12px;">PickMyTools Team</p>
       </div>
     `,
   }),
@@ -156,18 +156,18 @@ const emailTemplates = {
         </div>
         <p>Your order is being prepared for shipment.</p>
         <a href="${process.env.CLIENT_URL}/orders/${data.orderId}" style="display: inline-block; padding: 10px 20px; background: #fbbf24; color: #0f1820; text-decoration: none; border-radius: 5px; margin-top: 20px;">View Order</a>
-        <p style="color: #999; margin-top: 30px; font-size: 12px;">BuildMart Team</p>
+        <p style="color: #999; margin-top: 30px; font-size: 12px;">PickMyTools Team</p>
       </div>
     `,
   }),
 
   account_registered: (user, data) => ({
-    subject: "Welcome to BuildMart! 🎉",
+    subject: "Welcome to PickMyTools! 🎉",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #1e2e3e;">Welcome!</h2>
         <p>Hi <strong>${user.name}</strong>,</p>
-        <p>Welcome to BuildMart! Your account has been created successfully.</p>
+        <p>Welcome to PickMyTools! Your account has been created successfully.</p>
         <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
           <p><strong>Account Details:</strong></p>
           <p>Email: ${user.email}</p>
@@ -175,7 +175,7 @@ const emailTemplates = {
         </div>
         <p>Start exploring our wide range of products today!</p>
         <a href="${process.env.CLIENT_URL}/products" style="display: inline-block; padding: 10px 20px; background: #fbbf24; color: #0f1820; text-decoration: none; border-radius: 5px; margin-top: 20px;">Browse Products</a>
-        <p style="color: #999; margin-top: 30px; font-size: 12px;">BuildMart Team</p>
+        <p style="color: #999; margin-top: 30px; font-size: 12px;">PickMyTools Team</p>
       </div>
     `,
   }),

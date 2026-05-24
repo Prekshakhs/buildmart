@@ -1,8 +1,8 @@
-# Admin Login Guide - BuildMart
+# Admin Login Guide - PickMyTools
 
 ## 🔐 Admin Authentication Overview
 
-Admin users in BuildMart can **login using the same regular login flow** as buyers and sellers. The difference is:
+Admin users in PickMyTools can **login using the same regular login flow** as buyers and sellers. The difference is:
 - Admin user has `role: "admin"` in their User record
 - Admin-specific endpoints are protected by `authorize("admin")` middleware
 - Admin can access the Admin Dashboard at `/admin`
@@ -27,7 +27,7 @@ Connected to MongoDB
 
 📝 Admin Login Details:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Email:    admin@buildmart.com
+  Email:    admin@pickmytools.com
   Password: Admin@123
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
@@ -44,10 +44,10 @@ Connect to MongoDB and insert directly:
 
 ```javascript
 // MongoDB Shell
-use buildmart
+use pickmytools
 db.users.insertOne({
   name: "Admin User",
-  email: "admin@buildmart.com",
+  email: "admin@pickmytools.com",
   password: "$2b$12$...", // bcrypt hash of "Admin@123"
   role: "admin",
   phone: "+91-9876543210",
@@ -65,7 +65,7 @@ db.users.insertOne({
 POST /api/auth/register
 {
   "name": "Admin User",
-  "email": "admin@buildmart.com",
+  "email": "admin@pickmytools.com",
   "password": "Admin@123",
   "role": "admin"
 }
@@ -76,7 +76,7 @@ POST /api/auth/register
 3. Update user role in MongoDB:
 ```javascript
 db.users.updateOne(
-  { email: "admin@buildmart.com" },
+  { email: "admin@pickmytools.com" },
   { $set: { role: "admin" } }
 )
 ```
@@ -89,12 +89,12 @@ db.users.updateOne(
 Navigate to: `http://localhost:5173/login`
 
 ### Step 2: Enter Admin Credentials
-- **Email:** `admin@buildmart.com`
+- **Email:** `admin@pickmytools.com`
 - **Password:** `Admin@123`
 
 ### Step 3: Click Login
 ```
-[admin@buildmart.com] [••••••••]
+[admin@pickmytools.com] [••••••••]
 [  LOGIN  ]
 ```
 
@@ -182,7 +182,7 @@ DELETE /api/admin/products/:id - Remove product
 ### Changing Admin Password
 
 1. **Login as admin:**
-   - Email: `admin@buildmart.com`
+   - Email: `admin@pickmytools.com`
    - Password: (current password)
 
 2. **Go to Profile → Password**
@@ -204,7 +204,7 @@ If admin forgets the password:
 **Option 1: Using MongoDB (Quick)**
 ```bash
 # Connect to MongoDB
-mongo buildmart
+mongo pickmytools
 
 # Update admin password hash
 # First, generate bcrypt hash of new password
@@ -216,7 +216,7 @@ console.log(hash);
 
 # Then in MongoDB:
 db.users.updateOne(
-  { email: "admin@buildmart.com" },
+  { email: "admin@pickmytools.com" },
   { $set: { password: "<paste_hash_here>" } }
 )
 ```
@@ -225,7 +225,7 @@ db.users.updateOne(
 ```
 1. Go to login page
 2. Click "Forgot Password"
-3. Enter: admin@buildmart.com
+3. Enter: admin@pickmytools.com
 4. Check email console output
 5. Click reset link
 6. Enter new password
@@ -238,7 +238,7 @@ db.users.updateOne(
 
 After creating admin account:
 
-✅ Admin account created (`admin@buildmart.com`)
+✅ Admin account created (`admin@pickmytools.com`)
 ✅ Can login with credentials
 ✅ Admin dashboard accessible
 ✅ Can view users list
@@ -256,14 +256,14 @@ After creating admin account:
 **Solution:**
 - Ensure `emailVerified: true` is set in database
 - Run seed script again: `node scripts/seed-admin.js`
-- Or manually update: `db.users.updateOne({email: "admin@buildmart.com"}, {$set: {emailVerified: true}})`
+- Or manually update: `db.users.updateOne({email: "admin@pickmytools.com"}, {$set: {emailVerified: true}})`
 
 ### Problem: "Invalid credentials" error
 **Solution:**
-- Double-check email: `admin@buildmart.com`
+- Double-check email: `admin@pickmytools.com`
 - Double-check password (case-sensitive)
-- Ensure user role is "admin": `db.users.findOne({email: "admin@buildmart.com"})`
-- If wrong role, update: `db.users.updateOne({email: "admin@buildmart.com"}, {$set: {role: "admin"}})`
+- Ensure user role is "admin": `db.users.findOne({email: "admin@pickmytools.com"})`
+- If wrong role, update: `db.users.updateOne({email: "admin@pickmytools.com"}, {$set: {role: "admin"}})`
 
 ### Problem: "Too many login attempts" / Account locked
 **Solution:**
@@ -271,14 +271,14 @@ After creating admin account:
 - Or reset failed attempts in database:
 ```javascript
 db.users.updateOne(
-  { email: "admin@buildmart.com" },
+  { email: "admin@pickmytools.com" },
   { $set: { loginAttempts: 0, lockUntil: null } }
 )
 ```
 
 ### Problem: Cannot access admin endpoints
 **Solution:**
-- Verify logged-in user is admin: `db.users.findOne({email: "admin@buildmart.com"}).role`
+- Verify logged-in user is admin: `db.users.findOne({email: "admin@pickmytools.com"}).role`
 - Check if account is active: `isActive: true`
 - Verify token is valid (refresh if expired)
 - Check server logs for authorization errors
@@ -343,7 +343,7 @@ cp backend/scripts/seed-admin.js backend/scripts/seed-admin-john.js
 
 # Edit email and name:
 # name: "John Admin"
-# email: "john.admin@buildmart.com"
+# email: "john.admin@pickmytools.com"
 
 # Run it:
 node backend/scripts/seed-admin-john.js
@@ -354,7 +354,7 @@ node backend/scripts/seed-admin-john.js
 db.users.insertMany([
   {
     name: "Admin 1",
-    email: "admin1@buildmart.com",
+    email: "admin1@pickmytools.com",
     password: "$2b$12$...",
     role: "admin",
     emailVerified: true,
@@ -362,7 +362,7 @@ db.users.insertMany([
   },
   {
     name: "Admin 2",
-    email: "admin2@buildmart.com",
+    email: "admin2@pickmytools.com",
     password: "$2b$12$...",
     role: "admin",
     emailVerified: true,
@@ -385,7 +385,7 @@ db.users.insertMany([
 **Admin Login Process:**
 1. ✅ Run: `node backend/scripts/seed-admin.js` (one-time setup)
 2. ✅ Go to: `http://localhost:5173/login`
-3. ✅ Enter: `admin@buildmart.com` / `Admin@123`
+3. ✅ Enter: `admin@pickmytools.com` / `Admin@123`
 4. ✅ Access: Admin dashboard and features
 5. ✅ Change password on first login
 

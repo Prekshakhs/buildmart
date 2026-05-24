@@ -18,11 +18,11 @@ const removeTestSellers = async () => {
     console.log("🗑️  Removing test sellers except Bangalore...\n");
 
     const sellersToRemove = [
-      "seller-delhi@buildmart.com",
-      "seller-mumbai@buildmart.com",
-      "seller-chennai@buildmart.com",
-      "seller-kolkata@buildmart.com",
-      "seller-hyderabad@buildmart.com",
+      "seller-delhi@pickmytools.com",
+      "seller-mumbai@pickmytools.com",
+      "seller-chennai@pickmytools.com",
+      "seller-kolkata@pickmytools.com",
+      "seller-hyderabad@pickmytools.com",
     ];
 
     for (const email of sellersToRemove) {
@@ -38,11 +38,11 @@ const removeTestSellers = async () => {
 
     // Keep Bangalore seller
     const bangaloreSeller = await User.findOne({
-      email: "seller@buildmart.com",
+      email: "seller@pickmytools.com",
     });
     if (bangaloreSeller) {
       console.log(
-        `\n✅ Kept: seller@buildmart.com (Bangalore with 8 products)`,
+        `\n✅ Kept: seller@pickmytools.com (Bangalore with 8 products)`,
       );
     }
 

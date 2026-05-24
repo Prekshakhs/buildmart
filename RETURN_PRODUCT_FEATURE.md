@@ -298,7 +298,7 @@ if (order.deliveredAt < thirtyDaysAgo) {
 
 - Backend running: `http://localhost:5000`
 - Frontend running: `http://localhost:5177`
-- Test buyer account: `buyer@buildmart.com`
+- Test buyer account: `buyer@pickmytools.com`
 
 ### 2. Prerequisites
 
@@ -310,7 +310,7 @@ if (order.deliveredAt < thirtyDaysAgo) {
 
 ```
 Step 1: Login as buyer
-  Email: buyer@buildmart.com
+  Email: buyer@pickmytools.com
   Password: password123
 
 Step 2: Navigate to Orders

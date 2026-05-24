@@ -1,7 +1,7 @@
-# BuildMart: Secure Authentication System - Implementation Complete ✅
+# PickMyTools: Secure Authentication System - Implementation Complete ✅
 
 ## Overview
-BuildMart has successfully implemented an **enterprise-grade authentication system** with Phase 1 and Phase 2 complete. This document summarizes the implementation, completed features, and verification checklist.
+PickMyTools has successfully implemented an **enterprise-grade authentication system** with Phase 1 and Phase 2 complete. This document summarizes the implementation, completed features, and verification checklist.
 
 ---
 
@@ -476,7 +476,7 @@ ACCESS_TOKEN_EXPIRY=15m
 # Email Configuration
 GMAIL_USER=your-email@gmail.com
 GMAIL_PASSWORD=your-app-password
-GMAIL_FROM=BuildMart <noreply@buildmart.com>
+GMAIL_FROM=PickMyTools <noreply@pickmytools.com>
 
 # Security Settings
 MAX_LOGIN_ATTEMPTS=5
@@ -489,7 +489,7 @@ CLIENT_URL=http://localhost:5173
 SERVER_URL=http://localhost:7777
 
 # Database
-MONGODB_URI=mongodb://localhost:27017/buildmart
+MONGODB_URI=mongodb://localhost:27017/pickmytools
 ```
 
 ---
@@ -629,7 +629,7 @@ For issues or questions:
 
 ## ✨ Summary
 
-BuildMart now has a **production-ready, enterprise-grade authentication system** with:
+PickMyTools now has a **production-ready, enterprise-grade authentication system** with:
 - ✅ Email verification
 - ✅ Rate limiting & account lockout
 - ✅ Token refresh & revocation

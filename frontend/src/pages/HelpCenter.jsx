@@ -126,7 +126,7 @@ export default function HelpCenter() {
           Help Center
         </h1>
         <p className="text-steel-400">
-          Find answers to common questions about BuildMart
+          Find answers to common questions about PickMyTools
         </p>
       </div>
 

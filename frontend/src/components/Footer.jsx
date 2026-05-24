@@ -10,11 +10,11 @@ export function Footer() {
             <div className="flex items-center gap-2 mb-3">
               <div className="w-7 h-7 bg-amber-400 rounded flex items-center justify-center">
                 <span className="font-display font-800 text-steel-950 text-xs">
-                  BM
+                  PMT
                 </span>
               </div>
               <span className="font-display font-700 text-lg uppercase tracking-widest text-steel-50">
-                Build<span className="text-amber-400">Mart</span>
+                Pick<span className="text-amber-400">MyTools</span>
               </span>
             </div>
             <p className="text-steel-400 text-sm font-body leading-relaxed">
@@ -93,7 +93,7 @@ export function Footer() {
         </div>
         <div className="border-t border-steel-800 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
           <p className="text-steel-600 text-xs font-mono">
-            © {new Date().getFullYear()} BuildMart. All rights reserved.
+            © {new Date().getFullYear()} PickMyTools. All rights reserved.
           </p>
           <p className="text-steel-700 text-xs font-mono">
             Built with MERN Stack

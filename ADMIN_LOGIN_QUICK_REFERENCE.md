@@ -11,7 +11,7 @@ node scripts/seed-admin.js
 http://localhost:5173/login
 
 # 3. Enter credentials
-Email:    admin@buildmart.com
+Email:    admin@pickmytools.com
 Password: Admin@123
 
 # 4. Click Login ✅
@@ -23,7 +23,7 @@ Password: Admin@123
 
 | Field | Value |
 |-------|-------|
-| **Email** | admin@buildmart.com |
+| **Email** | admin@pickmytools.com |
 | **Password** | Admin@123 |
 | **Role** | admin |
 | **Email Verified** | Yes (auto-verified) |
@@ -63,14 +63,14 @@ Password: Admin@123
 ## ❓ Troubleshooting
 
 **Can't login?**
-- Check email: `admin@buildmart.com` (exact)
+- Check email: `admin@pickmytools.com` (exact)
 - Check password: `Admin@123` (case-sensitive)
-- Verify DB: `db.users.findOne({email: "admin@buildmart.com"})`
+- Verify DB: `db.users.findOne({email: "admin@pickmytools.com"})`
 - Check `emailVerified: true` is set
 
 **Forgot password?**
 - Click "Forgot Password" on login page
-- Enter: admin@buildmart.com
+- Enter: admin@pickmytools.com
 - Check console output for reset link
 - Create new password
 
@@ -79,7 +79,7 @@ Password: Admin@123
 - Or reset in MongoDB:
   ```javascript
   db.users.updateOne(
-    {email: "admin@buildmart.com"},
+    {email: "admin@pickmytools.com"},
     {$set: {loginAttempts: 0, lockUntil: null}}
   )
   ```
@@ -96,7 +96,7 @@ Password: Admin@123
              ▼
 ┌─────────────────────────────────┐
 │ 2. Enter Email & Password       │
-│    admin@buildmart.com          │
+│    admin@pickmytools.com          │
 │    Admin@123                    │
 └────────────┬────────────────────┘
              │

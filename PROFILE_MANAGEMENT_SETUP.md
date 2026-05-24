@@ -2,7 +2,7 @@
 
 ## ✅ Completed Implementation
 
-A comprehensive profile management system has been successfully created for both buyers and sellers in the BuildMart application. The system includes profile editing, profile picture upload, address management, seller business information, and password management.
+A comprehensive profile management system has been successfully created for both buyers and sellers in the PickMyTools application. The system includes profile editing, profile picture upload, address management, seller business information, and password management.
 
 ---
 
@@ -121,15 +121,15 @@ A comprehensive profile management system has been successfully created for both
 
 ```
 Buyer Account:
-  Email: buyer@buildmart.com
+  Email: buyer@pickmytools.com
   Password: password123
 
 Seller Account:
-  Email: seller@buildmart.com
+  Email: seller@pickmytools.com
   Password: password123
 
 Admin Account:
-  Email: admin@buildmart.com
+  Email: admin@pickmytools.com
   Password: password123
 ```
 

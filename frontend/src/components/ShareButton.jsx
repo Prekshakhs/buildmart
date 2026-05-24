@@ -6,7 +6,7 @@ export default function ShareButton({ productName, productId, productUrl }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const shareUrl = productUrl || `${window.location.origin}/products/${productId}`;
-  const shareText = `Check out ${productName} on BuildMart!`;
+  const shareText = `Check out ${productName} on PickMyTools!`;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(shareUrl);

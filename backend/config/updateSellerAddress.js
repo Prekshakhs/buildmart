@@ -9,7 +9,7 @@ const updateSellerAddress = async () => {
   await connectDB();
 
   try {
-    const seller = await User.findOne({ email: "seller@buildmart.com" });
+    const seller = await User.findOne({ email: "seller@pickmytools.com" });
     if (seller) {
       seller.address = {
         street: "123 Market Street",

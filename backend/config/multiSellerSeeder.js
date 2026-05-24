@@ -14,7 +14,7 @@ const User = require("../models/User.model");
 const sellers = [
   {
     name: "Delhi Hardware Hub",
-    email: "seller-delhi@buildmart.com",
+    email: "seller-delhi@pickmytools.com",
     password: "Seller@123456",
     city: "Delhi",
     state: "Delhi",
@@ -22,7 +22,7 @@ const sellers = [
   },
   {
     name: "Mumbai Supplies Co",
-    email: "seller-mumbai@buildmart.com",
+    email: "seller-mumbai@pickmytools.com",
     password: "Seller@123456",
     city: "Mumbai",
     state: "Maharashtra",
@@ -30,7 +30,7 @@ const sellers = [
   },
   {
     name: "Chennai Construction Materials",
-    email: "seller-chennai@buildmart.com",
+    email: "seller-chennai@pickmytools.com",
     password: "Seller@123456",
     city: "Chennai",
     state: "Tamil Nadu",
@@ -38,7 +38,7 @@ const sellers = [
   },
   {
     name: "Kolkata Tools",
-    email: "seller-kolkata@buildmart.com",
+    email: "seller-kolkata@pickmytools.com",
     password: "Seller@123456",
     city: "Kolkata",
     state: "West Bengal",
@@ -46,7 +46,7 @@ const sellers = [
   },
   {
     name: "Hyderabad Hardware",
-    email: "seller-hyderabad@buildmart.com",
+    email: "seller-hyderabad@pickmytools.com",
     password: "Seller@123456",
     city: "Hyderabad",
     state: "Telangana",

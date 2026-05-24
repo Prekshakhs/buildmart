@@ -1,7 +1,7 @@
 {
-  "name": "buildmart",
+  "name": "pickmytools",
   "version": "1.0.0",
-  "description": "BuildMart — MERN Stack B2B Marketplace",
+  "description": "PickMyTools — MERN Stack B2B Marketplace",
   "private": true,
   "scripts": {
     "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",

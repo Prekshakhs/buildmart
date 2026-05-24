@@ -39,7 +39,7 @@ const addKarnatakaCities = async () => {
 
     for (const cityData of karnatakacities) {
       const { city, area } = cityData;
-      const email = `seller-${city.toLowerCase()}@buildmart.com`;
+      const email = `seller-${city.toLowerCase()}@pickmytools.com`;
 
       const exists = await User.findOne({ email });
 

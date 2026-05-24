@@ -120,7 +120,7 @@ export default function ContactUs() {
               Message Sent Successfully!
             </h2>
             <p className="text-steel-400 mb-2">
-              Thank you for contacting BuildMart. We appreciate your message.
+              Thank you for contacting PickMyTools. We appreciate your message.
             </p>
             <p className="text-steel-500 text-sm">
               Our support team will review your request and get back to you

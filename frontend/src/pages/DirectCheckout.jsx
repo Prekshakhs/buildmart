@@ -62,7 +62,7 @@ export default function DirectCheckout() {
         key: import.meta.env.VITE_RAZORPAY_KEY || "YOUR_RAZORPAY_KEY_ID",
         amount: Math.round(totals.grandTotal * 100), // in paise
         currency: "INR",
-        name: "BuildMart",
+        name: "PickMyTools",
         description: "Direct Purchase",
         order_id: razorpayOrderId,
         prefill: {

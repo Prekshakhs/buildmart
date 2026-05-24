@@ -23,7 +23,7 @@ const testSellerRegistration = async () => {
 
     // Test Seller 1: Mysore
     console.log("📝 Test 1: Registering seller from Mysore...");
-    const seller1Email = "mysore-hardware@buildmart.com";
+    const seller1Email = "mysore-hardware@pickmytools.com";
     const seller1Exists = await User.findOne({ email: seller1Email });
 
     if (!seller1Exists) {
@@ -58,7 +58,7 @@ const testSellerRegistration = async () => {
 
     // Test Seller 2: Mangalore
     console.log("\n📝 Test 2: Registering seller from Mangalore...");
-    const seller2Email = "mangalore-supplies@buildmart.com";
+    const seller2Email = "mangalore-supplies@pickmytools.com";
     const seller2Exists = await User.findOne({ email: seller2Email });
 
     if (!seller2Exists) {

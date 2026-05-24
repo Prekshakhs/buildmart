@@ -14,7 +14,7 @@ const User = require("../models/User.model");
 const createAdmin = async () => {
   await connectDB();
 
-  const adminEmail = "admin@buildmart.com";
+  const adminEmail = "admin@pickmytools.com";
   const adminPassword = "Admin@123456";
 
   try {

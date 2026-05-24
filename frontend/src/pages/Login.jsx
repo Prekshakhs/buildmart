@@ -40,7 +40,7 @@ export function Login() {
             Welcome Back
           </h1>
           <p className="text-steel-400 font-body text-sm mt-2">
-            Sign in to your BuildMart account
+            Sign in to your PickMyTools account
           </p>
         </div>
 
@@ -148,7 +148,7 @@ export function Register() {
             Create Account
           </h1>
           <p className="text-steel-400 font-body text-sm mt-2">
-            Join BuildMart — India's B2B marketplace
+            Join PickMyTools — India's B2B marketplace
           </p>
         </div>
 

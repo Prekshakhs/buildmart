@@ -16,7 +16,7 @@ const Category = require("../models/Category.model");
 const createSellerAndProducts = async () => {
   await connectDB();
 
-  const sellerEmail = "seller@buildmart.com";
+  const sellerEmail = "seller@pickmytools.com";
   const sellerPassword = "Seller@123456";
 
   try {
@@ -26,7 +26,7 @@ const createSellerAndProducts = async () => {
     if (!seller) {
       console.log("📝 Creating seller account...");
       seller = await User.create({
-        name: "BuildMart Seller",
+        name: "PickMyTools Seller",
         email: sellerEmail,
         password: sellerPassword,
         role: "seller",
@@ -40,7 +40,7 @@ const createSellerAndProducts = async () => {
           country: "India",
         },
         sellerInfo: {
-          businessName: "BuildMart Supplies",
+          businessName: "PickMyTools Supplies",
           gstin: "18AABCT1234H1Z0",
           isApproved: true,
           approvedAt: new Date(),
