@@ -49,10 +49,10 @@ function calculateDistance(lat1, lng1, lat2, lng2) {
   return Math.round(distance);
 }
 
-// Convert distance (km) to shipping charge (₹1 per 10km, rounded up)
+// Convert distance (km) to shipping charge (₹1 per 1km)
 function distanceToShippingCharge(distanceKm) {
   if (distanceKm === 0) return 0; // Same city = free
-  return Math.ceil(distanceKm / 10);
+  return Math.round(distanceKm); // ₹1 per 1km
 }
 
 // Main function: Get shipping charge from two city names
