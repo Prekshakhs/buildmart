@@ -9,6 +9,7 @@ const rateLimitService = require("../services/rateLimitService");
 const activityLogger = require("../services/activityLogger");
 const { createSession } = require("../services/sessionService");
 const securityAlertService = require("../services/securityAlertService");
+const distanceCalculator = require("../utils/distanceCalculator");
 
 // ─── Validation Rules ──────────────────────────────────────────────────────────
 const registerValidation = [
@@ -91,6 +92,14 @@ const register = [
         pincode: pincode || "",
         country: country || "India",
       };
+      // Auto-geocode address from city
+      if (city) {
+        const coords = distanceCalculator.getCityCoordinates(city);
+        if (coords) {
+          userData.address.latitude = coords.latitude;
+          userData.address.longitude = coords.longitude;
+        }
+      }
     }
 
     if (role === "seller" && businessName) {
@@ -563,7 +572,17 @@ const updateProfile = asyncHandler(async (req, res) => {
   if (avatar) user.avatar = avatar;
   if (businessName) user.businessName = businessName;
   if (gstin) user.gstin = gstin;
-  if (address) user.address = address;
+  if (address) {
+    user.address = address;
+    // Auto-geocode the address from city name
+    if (address.city) {
+      const coords = distanceCalculator.getCityCoordinates(address.city);
+      if (coords) {
+        user.address.latitude = coords.latitude;
+        user.address.longitude = coords.longitude;
+      }
+    }
+  }
 
   await user.save();
 

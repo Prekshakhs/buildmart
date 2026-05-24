@@ -50,7 +50,7 @@ async function seedFAQs() {
     if (!admin) {
       admin = await User.create({
         name: 'Admin',
-        email: 'admin@buildmart.com',
+        email: 'admin@pickmytools.com',
         password: 'admin123',
         role: 'admin',
         isVerified: true

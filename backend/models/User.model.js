@@ -44,6 +44,8 @@ const userSchema = new mongoose.Schema(
       state: String,
       pincode: String,
       country: { type: String, default: "India" },
+      latitude: Number,
+      longitude: Number,
     },
     sellerInfo: {
       businessName: String,

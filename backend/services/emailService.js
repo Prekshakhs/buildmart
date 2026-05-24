@@ -5,12 +5,12 @@ const emailService = {
     const verificationLink = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
 
     const mailOptions = {
-      from: process.env.GMAIL_USER || "noreply@buildmart.com",
+      from: process.env.GMAIL_USER || "noreply@pickmytools.com",
       to: user.email,
-      subject: "Verify Your BuildMart Email 📧",
+      subject: "Verify Your PickMyTools Email 📧",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #1e2e3e;">Welcome to BuildMart!</h2>
+          <h2 style="color: #1e2e3e;">Welcome to PickMyTools!</h2>
           <p>Hi <strong>${user.name}</strong>,</p>
           <p>Thank you for registering. Please verify your email to activate your account.</p>
           <div style="background: #f5f5f5; padding: 20px; border-radius: 5px; margin: 20px 0; text-align: center;">
@@ -21,7 +21,7 @@ const emailService = {
           <p style="color: #666; font-size: 14px;">Or copy this link: <a href="${verificationLink}">${verificationLink}</a></p>
           <p style="color: #999; font-size: 12px;">This link expires in 24 hours.</p>
           <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-          <p style="color: #999; font-size: 12px;">BuildMart Team</p>
+          <p style="color: #999; font-size: 12px;">PickMyTools Team</p>
         </div>
       `,
     };
@@ -39,9 +39,9 @@ const emailService = {
     const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${token}`;
 
     const mailOptions = {
-      from: process.env.GMAIL_USER || "noreply@buildmart.com",
+      from: process.env.GMAIL_USER || "noreply@pickmytools.com",
       to: user.email,
-      subject: "Reset Your BuildMart Password 🔐",
+      subject: "Reset Your PickMyTools Password 🔐",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #1e2e3e;">Password Reset Request</h2>
@@ -56,7 +56,7 @@ const emailService = {
           <p style="color: #999; font-size: 12px;">This link expires in 1 hour.</p>
           <p style="color: #d32f2f; font-size: 14px;"><strong>⚠️ If you didn't request this, please ignore this email.</strong></p>
           <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-          <p style="color: #999; font-size: 12px;">BuildMart Team</p>
+          <p style="color: #999; font-size: 12px;">PickMyTools Team</p>
         </div>
       `,
     };
@@ -75,7 +75,7 @@ const emailService = {
 
     switch (alertType) {
       case "login":
-        subject = "🔐 New Login to Your BuildMart Account";
+        subject = "🔐 New Login to Your PickMyTools Account";
         html = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #1e2e3e;">New Login Detected</h2>
@@ -88,7 +88,7 @@ const emailService = {
             </div>
             <p style="color: #d32f2f;"><strong>⚠️ If this wasn't you, </strong><a href="${process.env.CLIENT_URL}/change-password">change your password immediately</a></p>
             <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-            <p style="color: #999; font-size: 12px;">BuildMart Team</p>
+            <p style="color: #999; font-size: 12px;">PickMyTools Team</p>
           </div>
         `;
         break;
@@ -106,7 +106,7 @@ const emailService = {
             <p>If this was you, try logging in after 30 minutes.</p>
             <p style="color: #d32f2f;"><strong>If this wasn't you, </strong><a href="${process.env.CLIENT_URL}/forgot-password">reset your password</a></p>
             <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-            <p style="color: #999; font-size: 12px;">BuildMart Team</p>
+            <p style="color: #999; font-size: 12px;">PickMyTools Team</p>
           </div>
         `;
         break;
@@ -121,7 +121,7 @@ const emailService = {
             <p>All your active sessions have been logged out for security.</p>
             <p style="color: #d32f2f;"><strong>⚠️ If you didn't make this change, </strong><a href="${process.env.CLIENT_URL}/forgot-password">reset your password immediately</a></p>
             <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-            <p style="color: #999; font-size: 12px;">BuildMart Team</p>
+            <p style="color: #999; font-size: 12px;">PickMyTools Team</p>
           </div>
         `;
         break;
@@ -131,7 +131,7 @@ const emailService = {
     }
 
     const mailOptions = {
-      from: process.env.GMAIL_USER || "noreply@buildmart.com",
+      from: process.env.GMAIL_USER || "noreply@pickmytools.com",
       to: user.email,
       subject,
       html,
@@ -150,9 +150,9 @@ const emailService = {
     const { email, name, contactId } = options;
 
     const mailOptions = {
-      from: process.env.GMAIL_USER || "noreply@buildmart.com",
+      from: process.env.GMAIL_USER || "noreply@pickmytools.com",
       to: email,
-      subject: "We Received Your Message - BuildMart Support",
+      subject: "We Received Your Message - PickMyTools Support",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #1e2e3e;">Thank You for Contacting Us</h2>
@@ -164,7 +164,7 @@ const emailService = {
           </div>
           <p>If you have any urgent matters, please feel free to reply to this email.</p>
           <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-          <p style="color: #999; font-size: 12px;">BuildMart Support Team</p>
+          <p style="color: #999; font-size: 12px;">PickMyTools Support Team</p>
         </div>
       `,
     };
@@ -188,7 +188,7 @@ const emailService = {
     }
 
     const mailOptions = {
-      from: process.env.GMAIL_USER || "noreply@buildmart.com",
+      from: process.env.GMAIL_USER || "noreply@pickmytools.com",
       to: adminEmail,
       subject: `[${category}] New Support Request from ${name}`,
       html: `
@@ -207,7 +207,7 @@ const emailService = {
             </a>
           </p>
           <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-          <p style="color: #999; font-size: 12px;">BuildMart Admin System</p>
+          <p style="color: #999; font-size: 12px;">PickMyTools Admin System</p>
         </div>
       `,
     };
@@ -224,9 +224,9 @@ const emailService = {
     const { email, name, subject, message, contactId } = options;
 
     const mailOptions = {
-      from: process.env.GMAIL_USER || "noreply@buildmart.com",
+      from: process.env.GMAIL_USER || "noreply@pickmytools.com",
       to: email,
-      subject: `Re: ${subject} - BuildMart Support`,
+      subject: `Re: ${subject} - PickMyTools Support`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #1e2e3e;">Support Reply</h2>
@@ -237,7 +237,7 @@ const emailService = {
           </div>
           <p>If you have any follow-up questions, please reply to this email with your reference ID: <strong>${contactId}</strong></p>
           <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-          <p style="color: #999; font-size: 12px;">BuildMart Support Team</p>
+          <p style="color: #999; font-size: 12px;">PickMyTools Support Team</p>
         </div>
       `,
     };

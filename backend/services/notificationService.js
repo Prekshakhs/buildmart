@@ -69,7 +69,7 @@ const notificationService = {
       const { subject, html } = emailTemplate(user, data);
 
       await transporter.sendMail({
-        from: process.env.GMAIL_USER || "noreply@buildmart.com",
+        from: process.env.GMAIL_USER || "noreply@pickmytools.com",
         to: user.email,
         subject,
         html,
@@ -143,7 +143,7 @@ const notificationService = {
       },
       account_registered: {
         title: "Welcome!",
-        message: (data) => `Welcome to BuildMart, ${data.userName}!`,
+        message: (data) => `Welcome to PickMyTools, ${data.userName}!`,
       },
       password_reset: {
         title: "Password Reset",

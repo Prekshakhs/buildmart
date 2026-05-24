@@ -19,7 +19,7 @@ const seedTestData = async () => {
 
     const testBuyer = new User({
       name: "John Buyer",
-      email: "buyer@buildmart.com",
+      email: "buyer@pickmytools.com",
       password: "Buyer@123",
       role: "buyer",
       phone: "+91-9876543210",
@@ -34,8 +34,8 @@ const seedTestData = async () => {
     });
 
     const testSeller = new User({
-      name: "BuildMart Supplies",
-      email: "seller@buildmart.com",
+      name: "PickMyTools Supplies",
+      email: "seller@pickmytools.com",
       password: "Seller@123",
       role: "seller",
       phone: "+91-9987654321",
@@ -47,7 +47,7 @@ const seedTestData = async () => {
         country: "India",
       },
       sellerInfo: {
-        businessName: "BuildMart Supplies Pvt Ltd",
+        businessName: "PickMyTools Supplies Pvt Ltd",
         gstin: "27AAWFR1234H1Z0",
         isApproved: true,
         approvedAt: new Date(),
@@ -273,9 +273,9 @@ const seedTestData = async () => {
     console.log("📊 TEST DATA SUMMARY");
     console.log("━".repeat(50));
     console.log("\n👥 Test Users Created:");
-    console.log(`  Buyer:  buyer@buildmart.com / Buyer@123`);
-    console.log(`  Seller: seller@buildmart.com / Seller@123`);
-    console.log(`  Admin:  admin@buildmart.com / Admin@123`);
+    console.log(`  Buyer:  buyer@pickmytools.com / Buyer@123`);
+    console.log(`  Seller: seller@pickmytools.com / Seller@123`);
+    console.log(`  Admin:  admin@pickmytools.com / Admin@123`);
     console.log(`\n📦 Data Created:`);
     console.log(`  • ${categories.length} Categories`);
     console.log(`  • ${createdProducts.length} Sample Products`);

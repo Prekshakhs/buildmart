@@ -2,8 +2,33 @@ const asyncHandler = require("express-async-handler");
 const Order = require("../models/Order.model");
 const Cart = require("../models/Cart.model");
 const Product = require("../models/Product.model");
+const User = require("../models/User.model");
 const { calculatePrice } = require("../utils/pricingCalculator");
 const notificationService = require("../services/notificationService");
+const distanceCalculator = require("../utils/distanceCalculator");
+
+// ─── Helper: Calculate distance-based shipping for order ────────────────────────
+async function calculateDistanceBasedShipping(orderItems, buyerCity) {
+  if (!buyerCity) {
+    return 99; // Fallback to flat rate if no buyer city
+  }
+
+  let maxShipping = 0;
+
+  // For multi-seller orders, use the farthest seller (worst-case shipping)
+  for (const item of orderItems) {
+    const seller = await User.findById(item.seller);
+    if (!seller || !seller.address || !seller.address.city) continue;
+
+    const shipping = distanceCalculator.getShippingChargeByDistance(
+      buyerCity,
+      seller.address.city
+    );
+    maxShipping = Math.max(maxShipping, shipping);
+  }
+
+  return maxShipping || 99; // Fallback to ₹99 if no valid seller cities
+}
 
 // ─── @POST /api/orders ────────────────────────────────────────────────────────
 // Buyer: Place a new order
@@ -66,7 +91,8 @@ const placeOrder = asyncHandler(async (req, res) => {
     itemsTotal += totalPrice;
   }
 
-  const shippingCharges = itemsTotal >= 5000 ? 0 : 99; // Free shipping above ₹5000
+  // Calculate distance-based shipping charges
+  const shippingCharges = await calculateDistanceBasedShipping(orderItems, shippingAddress.city);
   const grandTotal = parseFloat((itemsTotal + shippingCharges).toFixed(2));
 
   // Build payment info
@@ -190,7 +216,8 @@ const placeDirectOrder = asyncHandler(async (req, res) => {
     itemsTotal += totalPrice;
   }
 
-  const shippingCharges = itemsTotal >= 5000 ? 0 : 99;
+  // Calculate distance-based shipping charges
+  const shippingCharges = await calculateDistanceBasedShipping(orderItems, shippingAddress.city);
   const grandTotal = parseFloat((itemsTotal + shippingCharges).toFixed(2));
 
   // Build payment info
@@ -455,10 +482,13 @@ const cancelOrderItem = asyncHandler(async (req, res) => {
   // Restore stock
   await Product.findByIdAndUpdate(item.product, { $inc: { stock: item.quantity } });
 
-  // Recalculate order totals
+  // Recalculate order totals with distance-based shipping
   const activeItems = order.items.filter((i) => i.cancellationStatus === "active");
   const newItemsTotal = activeItems.reduce((sum, i) => sum + (i.totalPrice || 0), 0);
-  const newShippingCharges = newItemsTotal >= 5000 ? 0 : 99;
+  const newShippingCharges = await calculateDistanceBasedShipping(
+    activeItems,
+    order.shippingAddress?.city
+  );
   const newGrandTotal = parseFloat((newItemsTotal + newShippingCharges).toFixed(2));
 
   order.itemsTotal = parseFloat(newItemsTotal.toFixed(2));

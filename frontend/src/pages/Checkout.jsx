@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MapPin, CreditCard, Truck } from "lucide-react";
+import { MapPin, CreditCard, Truck, Info } from "lucide-react";
 import { orderService, paymentService } from "../api/services";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
@@ -21,8 +21,11 @@ export default function Checkout() {
   const [loading, setLoading] = useState(false);
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
-  const shippingCharge = cart.grandTotal >= 5000 ? 0 : 99;
-  const grandTotal = cart.grandTotal + shippingCharge;
+
+  // Distance-based shipping: ₹1 per 10km (will be calculated on backend)
+  // Show estimate of ₹0-50 based on typical distances
+  const estimatedShipping = form.city ? 15 : 0; // Default estimate
+  const grandTotal = cart.grandTotal + estimatedShipping;
 
   const initializeRazorpayPayment = async () => {
     try {
@@ -220,12 +223,18 @@ export default function Checkout() {
                 <span className="font-mono">{formatCurrency(cart.grandTotal)}</span>
               </div>
               <div className="flex justify-between text-steel-400">
-                <span>Shipping</span>
-                <span className={`font-mono ${shippingCharge === 0 ? "text-emerald-400" : ""}`}>
-                  {shippingCharge === 0 ? "FREE" : formatCurrency(shippingCharge)}
+                <span>Shipping (Distance-based)</span>
+                <span className="font-mono text-amber-400">
+                  {form.city ? `~${formatCurrency(estimatedShipping)}*` : "TBD"}
                 </span>
               </div>
             </div>
+            {form.city && (
+              <div className="flex gap-2 text-xs text-steel-500 bg-steel-800/30 p-2 rounded">
+                <Info size={14} className="flex-shrink-0 mt-0.5" />
+                <span>*Final shipping calculated on distance. Free shipping varies by location.</span>
+              </div>
+            )}
             <div className="divider" />
             <div className="flex justify-between items-center">
               <span className="font-display font-700 uppercase tracking-wide text-steel-200">Total</span>
