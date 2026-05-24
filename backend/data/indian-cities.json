@@ -730,5 +730,7 @@
   { "city": "Araria", "latitude": 26.1242, "longitude": 87.5058 },
   { "city": "Katihar", "latitude": 25.5343, "longitude": 87.57 },
   { "city": "Kishanganj", "latitude": 25.2276, "longitude": 87.9301 },
-  { "city": "Supaul", "latitude": 26.1226, "longitude": 86.5844 }
+  { "city": "Supaul", "latitude": 26.1226, "longitude": 86.5844 },
+  { "city": "Bhubaneswar", "latitude": 20.2961, "longitude": 85.8245 },
+  { "city": "Surat", "latitude": 21.1702, "longitude": 72.8311 }
 ]
