@@ -45,11 +45,11 @@ export default function Navbar() {
           <Link to="/" className="flex items-center gap-2 group">
             <div className="w-8 h-8 bg-amber-400 rounded flex items-center justify-center">
               <span className="font-display font-800 text-steel-950 text-sm">
-                BM
+                PMT
               </span>
             </div>
             <span className="font-display font-700 text-xl uppercase tracking-widest text-steel-50 group-hover:text-amber-400 transition-colors">
-              Build<span className="text-amber-400">Mart</span>
+              Pick<span className="text-amber-400">MyTools</span>
             </span>
           </Link>
 
