@@ -110,7 +110,7 @@ function AppContent() {
             </main>
             <Footer />
           </div>
-        </>;
+        );
 }
 
 export default function App() {
