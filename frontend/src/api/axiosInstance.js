@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:7777/api",
+  baseURL: "https://buildmart-api-oy5t.onrender.com",
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });
