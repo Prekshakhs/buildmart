@@ -58,17 +58,16 @@ app.use("/api/", limiter);
 app.use(
   cors({
     origin: function (origin, callback) {
-      // In development, allow all localhost requests
-      if (process.env.NODE_ENV === "development") {
+      const allowedOrigins = [
+        "http://localhost:5173",
+        "http://localhost:3000",
+        process.env.CLIENT_URL,
+      ].filter(Boolean);
+
+      if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        // In production, use the configured CLIENT_URL
-        const allowedOrigin = process.env.CLIENT_URL || "http://localhost:5173";
-        if (origin === allowedOrigin) {
-          callback(null, true);
-        } else {
-          callback(new Error("Not allowed by CORS"));
-        }
+        callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
