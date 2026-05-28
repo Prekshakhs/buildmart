@@ -1,9 +1,9 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:7777/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:7777/api",
   headers: { "Content-Type": "application/json" },
-  withCredentials: true, // Enable sending cookies with requests
+  withCredentials: true,
 });
 
 let isRefreshing = false;
