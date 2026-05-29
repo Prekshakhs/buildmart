@@ -64,6 +64,7 @@ app.use(
         "http://localhost:3000",
         "https://pick-my-tool.vercel.app",
         "https://buildmart.vercel.app",
+        "https://pick-my-tool-ghjbijukul-prekshakhs-projects.vercel.app",
         process.env.CLIENT_URL,
       ].filter(Boolean);
 
