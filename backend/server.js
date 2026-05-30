@@ -65,6 +65,7 @@ app.use(
         "https://pick-my-tool.vercel.app",
         "https://buildmart.vercel.app",
         "https://pick-my-tool-ghjbijukul-prekshakhs-projects.vercel.app",
+        "https://pick-my-tool-5cjwxexg5-prekshakhs-projects.vercel.app",
         process.env.CLIENT_URL,
       ].filter(Boolean);
 
