@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: import.meta.env.PROD ? "https://buildmart-api-oy5t.onrender.com" : "/api",
+  baseURL: import.meta.env.PROD ? "https://buildmart-api-oy5t.onrender.com/api" : "/api",
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });
