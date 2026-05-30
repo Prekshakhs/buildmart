@@ -7,7 +7,9 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target: process.env.VITE_API_BASE_URL || "http://localhost:7777",
+        target:
+          process.env.VITE_API_BASE_URL ||
+          "https://buildmart-api-oy5t.onrender.com",
         changeOrigin: true,
       },
     },
