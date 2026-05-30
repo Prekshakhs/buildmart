@@ -43,9 +43,28 @@ const deleteCategory = asyncHandler(async (req, res) => {
   res.json({ success: true, message: "Category removed" });
 });
 
+// @POST /api/categories/seed — Development/Admin only
+const seedCategories = asyncHandler(async (req, res) => {
+  const categories = [
+    { name: "Construction Materials", description: "Cement, sand, brick, gravel, and other construction supplies", icon: "🏗️" },
+    { name: "Hardware Tools", description: "Hand tools, power tools, and hardware supplies", icon: "🔧" },
+    { name: "Plumbing & Electrical", description: "Pipes, fittings, electrical wires, and components", icon: "🔌" },
+    { name: "Agriculture Equipment", description: "Farm tools, equipment, and agricultural supplies", icon: "🌾" },
+    { name: "Safety & PPE", description: "Personal protective equipment and safety gear", icon: "🦺" },
+    { name: "Paints & Coatings", description: "Interior and exterior paints, varnishes, and coatings", icon: "🎨" },
+    { name: "Lumber & Wood", description: "Wood planks, plywood, and wood products", icon: "🪵" },
+    { name: "Kitchen & Appliances", description: "Kitchen fixtures and household appliances", icon: "🚪" },
+  ];
+
+  await Category.deleteMany({});
+  const seeded = await Category.insertMany(categories);
+  res.json({ success: true, message: `Seeded ${seeded.length} categories`, data: seeded });
+});
+
 module.exports = {
   getCategories,
   createCategory,
   updateCategory,
   deleteCategory,
+  seedCategories,
 };
