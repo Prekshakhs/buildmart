@@ -64,12 +64,13 @@ app.use(
         "http://localhost:3000",
         "https://pick-my-tool.vercel.app",
         "https://buildmart.vercel.app",
-        "https://pick-my-tool-ghjbijukul-prekshakhs-projects.vercel.app",
-        "https://pick-my-tool-5cjwxexg5-prekshakhs-projects.vercel.app",
         process.env.CLIENT_URL,
       ].filter(Boolean);
 
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow all Vercel preview URLs (*.vercel.app)
+      const isVercelPreview = origin && origin.includes(".vercel.app");
+
+      if (!origin || allowedOrigins.includes(origin) || isVercelPreview) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
