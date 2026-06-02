@@ -18,6 +18,18 @@ const onTokenRefreshed = () => {
   refreshSubscribers = [];
 };
 
+// Request interceptor: add token to headers
+API.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (err) => Promise.reject(err)
+);
+
 // Response interceptor: handle token refresh and 401 errors
 API.interceptors.response.use(
   (res) => res,
