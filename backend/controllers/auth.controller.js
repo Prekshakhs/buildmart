@@ -298,6 +298,7 @@ const login = [
       success: true,
       message: "Login successful",
       user: user.toJSON(),
+      token: accessToken,
     });
   }),
 ];
@@ -383,6 +384,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     res.json({
       success: true,
       message: "Token refreshed",
+      token: accessToken,
     });
   } catch (error) {
     res.clearCookie("accessToken");

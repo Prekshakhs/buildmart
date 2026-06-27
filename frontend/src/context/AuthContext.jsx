@@ -12,12 +12,18 @@ export function AuthProvider({ children }) {
   // Check if user is logged in on app load
   useEffect(() => {
     const initAuth = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setLoading(false);
+        return;
+      }
       try {
         const { data } = await authService.getMe();
         setUser(data.user);
         setIsAuthenticated(true);
       } catch (error) {
-        // Silently handle auth check failure - expected if not logged in
+        // Token is invalid or expired - clean up
+        localStorage.removeItem("token");
         setUser(null);
         setIsAuthenticated(false);
       } finally {
@@ -32,6 +38,9 @@ export function AuthProvider({ children }) {
     setLoading(true);
     try {
       const { data } = await authService.login({ email, password });
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
       setUser(data.user);
       setIsAuthenticated(true);
       toast.success(`Welcome back, ${data.user.name.split(" ")[0]}!`);
@@ -61,11 +70,13 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     try {
       await authService.logout();
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      localStorage.removeItem("token");
       setUser(null);
       setIsAuthenticated(false);
       toast.success("Logged out successfully");
-    } catch (error) {
-      console.error("Logout error:", error);
     }
   };
 

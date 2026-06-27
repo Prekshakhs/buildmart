@@ -55,13 +55,17 @@ API.interceptors.response.use(
 
         try {
           // Try to refresh the access token
-          await API.post("/auth/refresh");
+          const refreshResponse = await API.post("/auth/refresh");
+          if (refreshResponse.data.token) {
+            localStorage.setItem("token", refreshResponse.data.token);
+          }
           onTokenRefreshed();
           return API(originalRequest);
         } catch (refreshErr) {
           // Refresh failed, clear auth and redirect to login
           isRefreshing = false;
           refreshSubscribers = [];
+          localStorage.removeItem("token");
           window.location.href = "/login";
           return Promise.reject(refreshErr);
         }
